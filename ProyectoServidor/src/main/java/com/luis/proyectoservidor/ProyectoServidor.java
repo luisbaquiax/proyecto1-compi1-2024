@@ -6,13 +6,10 @@ package com.luis.proyectoservidor;
 
 
 import com.luis.proyectoservidor.lexer.AccionesLexer;
-import com.luis.proyectoservidor.objetos.*;
 import com.luis.proyectoservidor.parser.AccionesParser;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -20,39 +17,21 @@ import java.util.List;
  */
 public class ProyectoServidor {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         /*Servidor servidor = new Servidor();
         servidor.setVisible(true);*/
-        /*String contenido = "<ACCIones>\n" +
-                "                <accion nombre=\"NUEVO_SITIO_WEB\">\n" +
-                "                    <parametros>\n" +
-                "                      <parametro nombre=\"ID\">\n" +
-                "                                [-pagina1]\n" +
-                "                            </parametro>\n" +
-                "                      <parametro nombre=\"USUARIO_CREACION\">\n" +
-                "                                [-user1]\n" +
-                "                            </parametro>\n" +
-                "                      <parametro nombre=\"FECHA_CREACION\">\n" +
-                "                                [12-12-2]\n" +
-                "                            </parametro>\n" +
-                "                                \n" +
-                "                      <parametro nombre=\"FECHA_MODIFICACION\">\n" +
-                "                                 [12-12-12]\n" +
-                "                            </parametro>\n" +
-                "                      <parametro nombre=\"USUARIO_MODIFICACION\">\n" +
-                "                                [-user1]\n" +
-                "                            </parametro>\n" +
-                "                    </parametros>\n" +
-                "                  </accion>\n" +
-                "                </acciones>";
+        String contenido = """
+                [-id]
+                """;
         AccionesLexer lexer = new AccionesLexer(new StringReader(contenido));
         AccionesParser parser = new AccionesParser(lexer);
         try {
             parser.parse();
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }*/
-        CreadorSitios creador = new CreadorSitios();
+        }
+
+        /*CreadorSitios creador = new CreadorSitios();
         List<Sitio> sitios = new ArrayList<>();
         sitios.add(new Sitio("-hola","-user1","12-12-12","-user1","12-12-12"));
         sitios.add(new Sitio("-hola1","-user2","12-12-12","-user2","12-12-12"));
@@ -83,6 +62,6 @@ public class ProyectoServidor {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        creador.crearArchivosHtml(sitios);
+        creador.crearArchivosHtml(sitios);*/
     }
 }

@@ -39,10 +39,11 @@ public void syntax_error(Symbol c) {
 :}
 
 /* Terminals (tokens returned by the scanner). */
-terminal String ACCIONES, ACCION, PARAMETROS, PARAMETRO, NOMBRE, VALOR, ETIQUETAS;
+terminal String ACCIONES, ACCION, PARAMETROS, PARAMETRO, NOMBRE, VALOR, ETIQUETAS, ETIQUETA;
 terminal String ATRIBUTOS, ATRIBUTO;
-terminal        MENOR_QUE, MAYOR_QUE, IGUAL, DIAGONAL;
+terminal MENOR_QUE, MAYOR_QUE, IGUAL, DIAGONAL;
 terminal String ACCION_NUEVO_SITIO, PARAMETRO_ID, PARAMETRO_USUARIO_CREACION;
+terminal String ACCION_MODIFICAR_COMPONENTE;
 terminal String PARAMETRO_FECHA_CREACION, PARAMETRO_FECHA_MODIFICACION, PARAMETRO_USUARIO_MODIFICACION;
 terminal String ACCION_BORRAR_SITIO_WEB, ACCION_NUEVA_PAGINA, PARAMETRO_TITULO, PARAMETRO_SITIO;
 terminal String PARAMETRO_PADRE, ACCION_BORRAR_PAGINA,ACCION_MODIFICAR_PAGINA;
@@ -51,13 +52,13 @@ terminal String ACCION_BORRAR_COMPONENTE, COMP_TITULO, ATRIBUTO_TEXTO,ATRIBUTO_A
 terminal String VALOR_ATRIBUTO_CENTRAR, VALOR_ATRIBUTO_IZQUIERDA, VALOR_ATRIBUTO_DERECHA, VALOR_ATRIBUTO_JUSTIFICAR;
 terminal String ATRIBUTO_COLOR, COMP_PARRAFO, COMPONENTE_IMAGEN, ATRIBUTO_ORIGEN;
 terminal String ATRIBUTO_ALTURA, ATRIBUTO_ANCHO, COMPONENTE_VIDEO, COMPONENTE_MENU;
-terminal String CORCHETE_A, CORCHETE_C, TEXTO, IDENTIFICADOR, FECHA, COLOR_HEXAGONAL;
+terminal String CORCHETE_A, CORCHETE_C, TEXTO, IDENTIFICADOR, FECHA, COLOR_HEXAGONAL, CADENA;
 terminal int NUMERO;
 
 /* Non-terminals */
-non terminal acciones, accion, list_acciones, parametros_sitio, parametros_pagina, etiquetas, list_param_sitio;
+non terminal acciones, accion, list_acciones, otras_acciones, parametros_sitio, parametros_pagina, etiquetas, list_param_sitio;
 non terminal otros_param_sitio;
-non terminal crear, init_crear, final_crear;
+non terminal crear, init_accion, final_accion, nombre_accion, body_accion;
 non terminal crear_sitio;
 non terminal crear_pagina;
 non terminal crear_componente;
@@ -69,7 +70,4 @@ non terminal crear_video;
 /* The grammar */
 start with acciones;
 
-acciones::= MAYOR_QUE ACCIONES MAYOR_QUE crear MENOR_QUE DIAGONAL ACCIONES MAYOR_QUE
-            | 
-            /*hola*/
-            ;
+acciones::= IDENTIFICADOR;

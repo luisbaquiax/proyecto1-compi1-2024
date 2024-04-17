@@ -27,12 +27,13 @@ entero = [0-9]+
 
 id = [\-\_\$][A-Za-z0-9]+
 fecha = [1-2][0-9][0-9][0-9][\-][0-1][0-9][\-][0-9][0-9]
-//cadena=\"[^\"]*\"
+cadena=\"[^\"]*\"
 color_hexagonal =[\#][0-9a-fA-F]{6}
 
 %{
 
   StringBuffer texto = new StringBuffer();
+
   private Symbol symbol(int type) {
     return new Symbol(type, yyline+1, yycolumn+1);
   }
@@ -58,6 +59,7 @@ color_hexagonal =[\#][0-9a-fA-F]{6}
 
 /* reglas lexicas */
  <YYINITIAL> {
+
 
 
 [aA][cC][cC][iI][oO][nN][eE][sS] {
@@ -90,8 +92,14 @@ color_hexagonal =[\#][0-9a-fA-F]{6}
     return symbol(sym.VALOR, yytext());
 }
 
+[eE][tT][iI][qQ][uU][eE][tT][aA] {
+    System.out.println(yytext());
+    return symbol(sym.ETIQUETA, yytext());
+}
+
 [eE][tT][iI][qQ][uU][eE][tT][aA][sS] {
     System.out.println(yytext());
+
     return symbol(sym.ETIQUETAS, yytext());
 }
 
@@ -196,6 +204,11 @@ color_hexagonal =[\#][0-9a-fA-F]{6}
                                     return symbol(sym.ACCION_AGREGAR_COMPONENTE, yytext());
                                     }
 
+    "\"MODIFICAR_COMPONENTE\""	    {
+                                    System.out.println(yytext());
+                                    return symbol(sym.ACCION_MODIFICAR_COMPONENTE, yytext());
+                                    }
+
     "\"PAGINA\""	                {
                                     System.out.println(yytext());
                                     return symbol(sym.PARAMETRO_PAGINA, yytext());
@@ -211,10 +224,7 @@ color_hexagonal =[\#][0-9a-fA-F]{6}
                                     return symbol(sym.ACCION_BORRAR_COMPONENTE, yytext());
                                     }
 
-    "TITULO"	                    {
-                                    System.out.println(yytext());
-                                    return symbol(sym.COMP_TITULO, yytext());
-                                    }
+
 
 
     "\"TEXTO\""	                    {
@@ -225,6 +235,91 @@ color_hexagonal =[\#][0-9a-fA-F]{6}
     "\"ALINEACION\""	            {
                                     System.out.println(yytext());
                                     return symbol(sym.ATRIBUTO_ALINEACION, yytext());
+                                    }
+
+
+
+    "\"COLOR\""	                    {
+                                    System.out.println(yytext());
+                                    return symbol(sym.ATRIBUTO_COLOR, yytext());
+                                    }
+
+
+
+    "\"ORIGEN\""	                {
+                                    System.out.println(yytext());
+                                    return symbol(sym.ATRIBUTO_ORIGEN, yytext());
+                                    }
+
+    "\"ALTURA\""	                {
+                                    System.out.println(yytext());
+                                    return symbol(sym.ATRIBUTO_ALTURA, yytext());
+                                    }
+
+    "\"ANCHO\""	                    {
+                                    System.out.println(yytext());
+                                    return symbol(sym.ATRIBUTO_ANCHO, yytext());
+                                    }
+
+    "\["                            {
+                                    texto.setLength(0); yybegin(VALOR_CORCHETES);
+                                    }
+
+    {cadena} {
+         System.out.println(yytext());
+         return symbol(sym.CADENA, yytext());
+    }
+
+    {WhiteSpace} 	                {/* ignoramos */}
+
+ }
+
+<VALOR_CORCHETES>{
+
+
+    {cadena}                        {
+                                    System.out.println(yytext());
+                                    return symbol(sym.CADENA, yytext());
+                                    }
+
+    {entero}                        {
+                                    System.out.println(yytext());
+                                    return symbol(sym.NUMERO, yytext());
+                                    }
+
+    {fecha}                         {
+                                    System.out.println(yytext());
+                                    return symbol(sym.FECHA, yytext());
+                                    }
+
+    {color_hexagonal}               {
+                                    System.out.println(yytext());
+                                    return symbol(sym.COLOR_HEXAGONAL, yytext());
+                                    }
+
+    "VIDEO"	                        {
+                                    System.out.println(yytext());
+                                    return symbol(sym.COMPONENTE_VIDEO, yytext());
+                                    }
+
+    "MENU"	                        {
+                                    //System.out.println(yytext());
+                                    return symbol(sym.COMPONENTE_MENU, yytext());
+                                    }
+
+    "PARRAFO"	                    {
+                                    //System.out.println(yytext());
+                                    return symbol(sym.COMP_PARRAFO, yytext());
+                                    }
+
+    "IMAGEN"	                    {
+                                    //System.out.println(yytext());
+                                    return symbol(sym.COMPONENTE_IMAGEN, yytext());
+                                    }
+
+    "TITULO"	                    {
+                                    System.out.println(yytext());
+                                    return symbol(sym.COMP_TITULO, yytext());
                                     }
 
     "CENTRAR"	                    {
@@ -247,101 +342,29 @@ color_hexagonal =[\#][0-9a-fA-F]{6}
                                     return symbol(sym.VALOR_ATRIBUTO_JUSTIFICAR, yytext());
                                     }
 
-    "\"COLOR\""	                    {
-                                    System.out.println(yytext());
-                                    return symbol(sym.ATRIBUTO_COLOR, yytext());
-                                    }
-
-    "PARRAFO"	                    {
-                                    System.out.println(yytext());
-                                    return symbol(sym.COMP_PARRAFO, yytext());
-                                    }
-
-    "IMAGEN"	                    {
-                                    System.out.println(yytext());
-                                    return symbol(sym.COMPONENTE_IMAGEN, yytext());
-                                    }
-
-    "\"ORIGEN\""	                {
-                                    System.out.println(yytext());
-                                    return symbol(sym.ATRIBUTO_ORIGEN, yytext());
-                                    }
-
-    "\"ALTURA\""	                {
-                                    System.out.println(yytext());
-                                    return symbol(sym.ATRIBUTO_ALTURA, yytext());
-                                    }
-
-    "\"ANCHO\""	                    {
-                                    System.out.println(yytext());
-                                    return symbol(sym.ATRIBUTO_ANCHO, yytext());
-                                    }
-
-    "VIDEO"	                        {
-                                    System.out.println(yytext());
-                                    return symbol(sym.COMPONENTE_VIDEO, yytext());
-                                    }
-
-    "MENU"	                        {
-                                    System.out.println(yytext());
-                                    return symbol(sym.COMPONENTE_MENU, yytext());
-                                    }
-    "\["                            {
-                                    System.out.println(yytext());
-                                    texto.setLength(0); yybegin(VALOR_CORCHETES);
-                                    return symbol(sym.CORCHETE_A, yytext());
-                                    }
-
-    "\]"                            {
-                                    System.out.println(yytext());
-                                    return symbol(sym.CORCHETE_C, yytext());
-                                    }
-
-
-{WhiteSpace} 	                {/* ignoramos */}
-
- }
-
-<VALOR_CORCHETES>{
-
-    "\]"                             {
-                                    System.out.println(yytext());
-                                    yybegin(YYINITIAL);
-                                    return symbol(sym.TEXTO, texto.toString());
-                                    }
-
     {id}                            {
                                     System.out.println(yytext());
                                     return symbol(sym.IDENTIFICADOR, yytext());
                                     }
 
-    {color_hexagonal}               {
-                                    System.out.println(yytext());
-                                    return symbol(sym.COLOR_HEXAGONAL, yytext());
+    //{WhiteSpace}                    { /* Ignorar espacios en blanco */ }
+
+     [\x00-\x7F]                    {
+                                    texto.append(yytext());
                                     }
 
-    {entero}                        {
-                                    System.out.println(yytext());
-                                    return symbol(sym.NUMERO, yytext());
-                                    }
+  [-|a-z|A-Z|0-9|-|_| |/|#|$|@|!|%|&|*|(|)|.|,|-|=|+|:|\/\/||]+         { texto.append(yytext()); }
+          \\t                          { texto.append('\t'); }
+          \\n                          { texto.append('\n'); }
+          \\r                          { texto.append('\r'); }
+          \\\"                         { texto.append('\"'); }
+          \\                           { texto.append('\\'); }
+          \]                           { yybegin(YYINITIAL); return symbol(sym.TEXTO, texto.toString());}
 
-    {fecha}                         {
-                                    System.out.println(yytext());
-                                    return symbol(sym.FECHA, yytext());
-                                    }
 
-    [^\[\]]*                        {
-                                        if (yytext().isEmpty()) {
-                                            texto.append("");
-                                        } else {
-                                            texto.append(yytext());
-                                        }
-                                    }
 }
 
 /* error fallback */
-[^]
-            {
-             //System.out.println("Simbolo invalido : "+ yytext());
-            error("Simbolo invalido : "+ yytext());}
-<<EOF>>                 { return symbol(sym.EOF); }
+[^]                              { System.out.println("Simbolo invalido: "+yytext()); }
+
+<<EOF>>                 { return symbol(sym.EOF, ""); }
