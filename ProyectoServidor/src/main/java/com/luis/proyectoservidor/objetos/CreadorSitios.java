@@ -83,4 +83,7 @@ public class CreadorSitios {
     public void eliminarArchivos(String rutaCarpeta) {
     }
 
+    public Archivo getArchivo() {
+        return archivo;
+    }
 }

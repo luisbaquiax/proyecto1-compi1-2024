@@ -21,6 +21,15 @@ public class Video extends Componente {
         this.ruta = ruta;
     }
 
+    @Override
+    public String toString() {
+        return "Video{" +
+                "altura=" + altura +
+                ", anchura=" + anchura +
+                ", ruta='" + ruta + '\'' +
+                "}\n";
+    }
+
     public int getAltura() {
         return altura;
     }

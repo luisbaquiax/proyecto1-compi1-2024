@@ -22,6 +22,15 @@ public class Titulo extends Componente {
         this.color = color;
     }
 
+    @Override
+    public String toString() {
+        return "Titulo{" +
+                "texto='" + texto + '\'' +
+                ", alineacion='" + alineacion + '\'' +
+                ", color='" + color + '\'' +
+                "}\n";
+    }
+
     public String getTexto() {
         return texto;
     }

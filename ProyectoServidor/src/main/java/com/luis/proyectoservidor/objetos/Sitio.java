@@ -45,6 +45,17 @@ public class Sitio {
         return userCreacion;
     }
 
+    @Override
+    public String toString() {
+        return "Sitio{" +
+                "id='" + id + '\'' +
+                ", userCreacion='" + userCreacion + '\'' +
+                ", fechaCreacion='" + fechaCreacion + '\'' +
+                ", userModificacion='" + userModificacion + '\'' +
+                ", fechaModificacion='" + fechaModificacion + '\'' +
+                "}\n";
+    }
+
     public void setUserCreacion(String userCreacion) {
         this.userCreacion = userCreacion;
     }

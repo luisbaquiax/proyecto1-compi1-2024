@@ -12,6 +12,7 @@ public class Archivo {
     public static  final String RUTA_SITIOS = "C:/Users/Usuario/Desktop/proyecto1-compi1-2024/datos/sitios.data";
     public static  final String RUTA_PAGINAS = "C:/Users/Usuario/Desktop/proyecto1-compi1-2024/datos/pages.data";
     public static  final String RUTA_COMPONENTES = "C:/Users/Usuario/Desktop/proyecto1-compi1-2024/datos/components.data";
+    public static  final String ARCHIVO_XML = "C:/Users/Usuario/Desktop/proyecto1-compi1-2024/datos/archivo.xml";
 
     public Archivo() {
     }

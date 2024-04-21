@@ -3,11 +3,12 @@ package com.luis.proyectoservidor.parser;
 import com.luis.proyectoservidor.lexer.AccionesLexer;
 import com.luis.proyectoservidor.objetos.*;
 import java_cup.runtime.*;
-import java.util.ArrayList;
+import java.util.*;
 
 parser code {:
 
     // Connect this parser to a scanner!
+   
     public AccionesParser(AccionesLexer lex) {
 	    super(lex);
 	  }
@@ -16,32 +17,43 @@ parser code {:
     public ArrayList<ErrorSintactico> errores = new ArrayList<>();
 
 
-public void syntax_error(Symbol c) {
+    public void syntax_error(Symbol c) {
             this.s = c;
             String cadena = c.value.toString();
-            int linea = c.left;
-            int col = c.right;
-            System.out.print("Error aca, value: " + cadena);
-            System.out.print(" -Linea " + linea);
-            System.out.println(" Columna " + col);
-                 errores.add(new ErrorSintactico(cadena, linea, col, "Error sintáctico"));
-            if (expected_token_ids().isEmpty()) {
-                System.out.println("ya no se esperaba ningun simbolo");
-            }
-        }
+                        int linea = c.left;
+                        int col = c.right;
+                        System.out.print("Error aca, value: " + cadena);
+                        System.out.print(" -Linea " + linea);
+                        System.out.println(" Columna " + col);
+                             errores.add(new ErrorSintactico(cadena, linea, col, "Error sintáctico"));
+                        if (expected_token_ids().isEmpty()) {
+                            System.out.println("ya no se esperaba ningun simbolo");
+                        }
+    }
+    
     public Symbol getSim(){
         return this.s;
     }
 
+    public List<Sitio> sitios  = new ArrayList<>();
+    public List<Pagina> paginas = new ArrayList<>();
+    public List<Componente> componentes = new ArrayList<>();
+    public List<Componente> componentesModificacion = new ArrayList<>();
+    public List<Accion> acciones = new ArrayList<>();
+    Sitio site = new Sitio();
+    Img img = new Img();
+
+
+    /*
     public void unrecovered_syntax_error(Symbol c) {
-        System.out.println("Error irrecuperable sobrecargado");
-    }
+        System.out.println("Error irrecuperable sobrecargado: "+c.value);
+    }*/
 :}
 
 /* Terminals (tokens returned by the scanner). */
 terminal String ACCIONES, ACCION, PARAMETROS, PARAMETRO, NOMBRE, VALOR, ETIQUETAS, ETIQUETA;
 terminal String ATRIBUTOS, ATRIBUTO;
-terminal MENOR_QUE, MAYOR_QUE, IGUAL, DIAGONAL;
+terminal MENOR, MAYOR, IGUAL, DIAGONAL, CERRAR;
 terminal String ACCION_NUEVO_SITIO, PARAMETRO_ID, PARAMETRO_USUARIO_CREACION;
 terminal String ACCION_MODIFICAR_COMPONENTE;
 terminal String PARAMETRO_FECHA_CREACION, PARAMETRO_FECHA_MODIFICACION, PARAMETRO_USUARIO_MODIFICACION;
@@ -49,25 +61,330 @@ terminal String ACCION_BORRAR_SITIO_WEB, ACCION_NUEVA_PAGINA, PARAMETRO_TITULO, 
 terminal String PARAMETRO_PADRE, ACCION_BORRAR_PAGINA,ACCION_MODIFICAR_PAGINA;
 terminal String ACCION_AGREGAR_COMPONENTE, PARAMETRO_PAGINA,  PARAMETRO_CLASE;
 terminal String ACCION_BORRAR_COMPONENTE, COMP_TITULO, ATRIBUTO_TEXTO,ATRIBUTO_ALINEACION;
-terminal String VALOR_ATRIBUTO_CENTRAR, VALOR_ATRIBUTO_IZQUIERDA, VALOR_ATRIBUTO_DERECHA, VALOR_ATRIBUTO_JUSTIFICAR;
+terminal String VALOR_ALINEACION;
 terminal String ATRIBUTO_COLOR, COMP_PARRAFO, COMPONENTE_IMAGEN, ATRIBUTO_ORIGEN;
 terminal String ATRIBUTO_ALTURA, ATRIBUTO_ANCHO, COMPONENTE_VIDEO, COMPONENTE_MENU;
 terminal String CORCHETE_A, CORCHETE_C, TEXTO, IDENTIFICADOR, FECHA, COLOR_HEXAGONAL, CADENA;
+terminal COMILLA;
 terminal int NUMERO;
 
 /* Non-terminals */
-non terminal acciones, accion, list_acciones, otras_acciones, parametros_sitio, parametros_pagina, etiquetas, list_param_sitio;
-non terminal otros_param_sitio;
+non terminal acciones, accion, list_acciones, otras_acciones; 
+non terminal Sitio parametros_sitio; 
+non terminal parametros_pagina, etiquetas, list_param_sitio;
+non terminal una_accion, muchas_acciones;
+non terminal op_accion, next_acciones, inicial_param_sitio, op_param_sitio, type_param_sitio, nexts_param_sitio;
+non terminal fechaC, fechaM, userM, userC;
+non terminal AccionDeleteSitio params_borrar_sitio; 
+non terminal AccionDeletePage params_borrar_pagina; 
+non terminal AccionDeletComponent params_delete_component;
+non terminal params_component, list_params_comp, atributos_component, list_atributos_comp, params_component_modificar; 
+non terminal String id_comp, page_comp, valores; 
+non terminal Componente clase_comp, op_clase;
 non terminal crear, init_accion, final_accion, nombre_accion, body_accion;
 non terminal crear_sitio;
 non terminal crear_pagina;
 non terminal crear_componente;
-non terminal crear_titulo;
-non terminal crear_parrafo;
-non terminal crear_img;
-non terminal crear_video;
+non terminal Titulo crear_titulo;
+non terminal atributos_titulo;
+non terminal Parrafo crear_parrafo;
+non terminal atributos_parrafo;
+non terminal Img crear_img, atributos_img;
+non terminal String url_img, alineacion_img; 
+non terminal Integer altura_img, ancho_img; 
+non terminal Video crear_video, atributos_video;
 
 /* The grammar */
 start with acciones;
 
-acciones::= IDENTIFICADOR;
+acciones::= MENOR ACCIONES MAYOR list_acciones CERRAR ACCIONES MAYOR
+            | MENOR ACCION NOMBRE IGUAL nombre_accion CERRAR ACCION MAYOR
+            ; 
+
+list_acciones::= MENOR ACCION NOMBRE IGUAL nombre_accion CERRAR ACCION MAYOR
+                | MENOR ACCION NOMBRE IGUAL nombre_accion CERRAR ACCION MAYOR list_acciones
+                ;
+
+nombre_accion::= ACCION_NUEVO_SITIO MAYOR MENOR PARAMETROS MAYOR parametros_sitio:sitio CERRAR PARAMETROS MAYOR {: parser.sitios.add(sitio); :}
+                | ACCION_BORRAR_SITIO_WEB MAYOR MENOR PARAMETROS MAYOR params_borrar_sitio:accion CERRAR PARAMETROS MAYOR
+                    {:
+                        AccionDeleteSitio delete = accion;
+                        delete.setTipo(Accion.DELETE_SITE);
+                        parser.acciones.add(delete);
+                    :}
+                | ACCION_NUEVA_PAGINA MAYOR MENOR PARAMETROS MAYOR parametros_pagina CERRAR PARAMETROS MAYOR
+                | ACCION_BORRAR_PAGINA MAYOR MENOR PARAMETROS MAYOR params_borrar_pagina:accion CERRAR PARAMETROS MAYOR
+                    {:
+                        AccionDeletePage delete = accion;
+                        delete.setTipo(Accion.DELETE_PAGE);
+                        parser.acciones.add(delete);
+                    :}
+                | ACCION_MODIFICAR_PAGINA 
+                | ACCION_AGREGAR_COMPONENTE MAYOR MENOR PARAMETROS MAYOR params_component
+                | ACCION_MODIFICAR_COMPONENTE MAYOR MENOR PARAMETROS MAYOR params_component_modificar
+                | ACCION_BORRAR_COMPONENTE MAYOR MENOR PARAMETROS MAYOR params_delete_component:accion CERRAR PARAMETROS MAYOR
+                    {: 
+                        AccionDeletComponent delete = accion;
+                        delete.setTipo(Accion.DELE_COMPONENT);
+                        parser.acciones.add(delete);
+                    :}
+                ;
+
+parametros_sitio::= MENOR PARAMETRO NOMBRE IGUAL PARAMETRO_ID MAYOR TEXTO:id CERRAR PARAMETRO MAYOR userC
+                   // {: site.setId(id); RESULT = site; :}
+                    ;
+
+userC::=    MENOR PARAMETRO NOMBRE IGUAL PARAMETRO_USUARIO_CREACION MAYOR TEXTO:id CERRAR PARAMETRO MAYOR fechaC
+            //{: site.setUserCreacion(txt);  :}
+            | MENOR PARAMETRO NOMBRE IGUAL PARAMETRO_USUARIO_CREACION MAYOR TEXTO:id CERRAR PARAMETRO MAYOR fechaM
+            | MENOR PARAMETRO NOMBRE IGUAL PARAMETRO_USUARIO_CREACION MAYOR TEXTO:id CERRAR PARAMETRO MAYOR userM
+            | MENOR PARAMETRO NOMBRE IGUAL PARAMETRO_USUARIO_CREACION MAYOR TEXTO:id CERRAR PARAMETRO MAYOR
+            ;
+
+fechaC::=    MENOR PARAMETRO NOMBRE IGUAL PARAMETRO_FECHA_CREACION MAYOR TEXTO:f CERRAR PARAMETRO MAYOR fechaM
+            | MENOR PARAMETRO NOMBRE IGUAL PARAMETRO_FECHA_CREACION MAYOR TEXTO:f CERRAR PARAMETRO MAYOR userM
+            | MENOR PARAMETRO NOMBRE IGUAL PARAMETRO_FECHA_CREACION MAYOR TEXTO:f CERRAR PARAMETRO MAYOR
+            ;
+
+fechaM::=   MENOR PARAMETRO NOMBRE IGUAL PARAMETRO_FECHA_MODIFICACION MAYOR TEXTO:f CERRAR PARAMETRO MAYOR userM
+            ;
+
+userM::=    MENOR PARAMETRO NOMBRE IGUAL PARAMETRO_USUARIO_MODIFICACION MAYOR TEXTO:id CERRAR PARAMETRO MAYOR
+            ;
+
+
+params_borrar_sitio::= MENOR PARAMETRO NOMBRE IGUAL PARAMETRO_ID MAYOR TEXTO:id CERRAR PARAMETRO MAYOR
+                        {:
+                            RESULT = new AccionDeleteSitio("", id);
+                        :}
+                        ;
+
+/*paginas*/
+params_borrar_pagina::= MENOR PARAMETRO NOMBRE IGUAL PARAMETRO_ID MAYOR TEXTO:id CERRAR PARAMETRO MAYOR {: RESULT = new AccionDeletePage("",id); :}
+                        ;
+
+/*componente*/
+
+params_component_modificar::=   id_comp:id page_comp:page clase_comp:componente
+                                {:  
+                                    if(componente instanceof Titulo titulo){
+                                        titulo = (Titulo) componente;
+                                        titulo.setId(id);
+                                        titulo.setPagina(page);
+                                        parser.componentesModificacion.add(titulo);
+                                    }else if(componente instanceof Parrafo parraf){
+                                        parraf = (Parrafo)componente;
+                                        parraf.setId(id);
+                                        parraf.setPagina(page);
+                                        parser.componentesModificacion.add(parraf);
+                                    }else if(componente instanceof Img img){
+                                        img = (Img)componente;
+                                        img.setId(id);
+                                        img.setPagina(page);
+                                        parser.componentesModificacion.add(img);
+                                    }else if(componente instanceof Video video){
+                                        video = (Video)componente;
+                                        video.setId(id);
+                                        video.setPagina(page);
+                                        parser.componentesModificacion.add(video);
+                                    }else if(componente instanceof Menu menu){
+                                        menu = (Menu)componente;
+                                        menu.setId(id);
+                                        menu.setPagina(page);
+                                        parser.componentesModificacion.add(menu);
+                                    }
+                                :}
+                                ;
+//agregar un componente
+params_component::=  id_comp:id page_comp:page clase_comp:componente
+                        {:  
+                            if(componente instanceof Titulo titulo){
+                                titulo = (Titulo) componente;
+                                titulo.setId(id);
+                                titulo.setPagina(page);
+                                parser.componentes.add(titulo);
+                            }else if(componente instanceof Parrafo parraf){
+                                parraf = (Parrafo)componente;
+                                parraf.setId(id);
+                                parraf.setPagina(page);
+                                parser.componentes.add(parraf);
+                            }else if(componente instanceof Img img){
+                                img = (Img)componente;
+                                img.setId(id);
+                                img.setPagina(page);
+                                parser.componentes.add(img);
+                            }else if(componente instanceof Video video){
+                                video = (Video)componente;
+                                video.setId(id);
+                                video.setPagina(page);
+                                parser.componentes.add(video);
+                            }else if(componente instanceof Menu menu){
+                                menu = (Menu)componente;
+                                menu.setId(id);
+                                menu.setPagina(page);
+                                parser.componentes.add(menu);
+                            }
+
+                        :}
+                    ;
+
+id_comp::= MENOR PARAMETRO NOMBRE IGUAL PARAMETRO_ID MAYOR TEXTO:id CERRAR PARAMETRO MAYOR {: RESULT = id; :}
+            ;
+
+page_comp::=    MENOR PARAMETRO NOMBRE IGUAL PARAMETRO_PAGINA MAYOR TEXTO:page CERRAR PARAMETRO MAYOR {: RESULT = page; :}
+                ;
+
+clase_comp::=   MENOR PARAMETRO NOMBRE IGUAL PARAMETRO_CLASE MAYOR op_clase:componente 
+                {: 
+                    if(componente instanceof Parrafo parraf){
+                        RESULT = (Parrafo) componente;
+                    }else if(componente instanceof Titulo titulo){
+                        RESULT = (Titulo) componente; 
+                    }else if(componente instanceof Img img){
+                        RESULT = (Img) componente;
+                    }else if(componente instanceof Video video){
+                        RESULT = (Video) componente;
+                    }else if(componente instanceof Menu menu){
+                        RESULT = (Menu) componente;
+                    }
+                   
+                :}
+                ;                            
+
+op_clase::=     crear_titulo:titulo {: RESULT = (Titulo) titulo; :}
+                | crear_parrafo:parrafo {:  RESULT = (Parrafo) parrafo; :}
+                | crear_img:img {: RESULT = (Img) img; :}
+                | crear_video:video {: RESULT = (Video) video; :}
+                ;
+
+crear_titulo::= COMP_TITULO:clase CERRAR PARAMETRO MAYOR CERRAR PARAMETROS MAYOR MENOR ATRIBUTOS MAYOR atributos_titulo:titulo CERRAR ATRIBUTOS MAYOR
+                {:
+                    Titulo t =(Titulo) titulo;
+                    t.setClase(clase);
+                    RESULT = (Titulo) t;
+                :}
+                ;
+
+atributos_titulo::= MENOR ATRIBUTO NOMBRE IGUAL ATRIBUTO_TEXTO MAYOR TEXTO:txt CERRAR ATRIBUTO MAYOR 
+                    MENOR ATRIBUTO NOMBRE IGUAL ATRIBUTO_ALINEACION MAYOR VALOR_ALINEACION: alineacion CERRAR ATRIBUTO MAYOR
+                    MENOR ATRIBUTO NOMBRE IGUAL ATRIBUTO_COLOR MAYOR TEXTO:color CERRAR ATRIBUTO MAYOR
+                    {:
+                        Titulo titulo = new Titulo();
+                        titulo.setColor(color);
+                        titulo.setTexto(txt);
+                        titulo.setAlineacion(alineacion);
+                        RESULT = (Titulo) titulo;
+                    :}
+                    ;
+
+crear_parrafo::=    COMP_PARRAFO:clase CERRAR PARAMETRO MAYOR CERRAR PARAMETROS MAYOR MENOR ATRIBUTOS MAYOR atributos_parrafo:parrafo CERRAR ATRIBUTOS MAYOR
+                    {:
+                        Parrafo parraf = (Parrafo) parrafo;
+                        parraf.setClase(clase);
+                        RESULT = (Parrafo) parraf;
+                    :}
+                    ;
+
+atributos_parrafo::=    MENOR ATRIBUTO NOMBRE IGUAL ATRIBUTO_TEXTO MAYOR TEXTO:txt CERRAR ATRIBUTO MAYOR 
+                    MENOR ATRIBUTO NOMBRE IGUAL ATRIBUTO_ALINEACION MAYOR VALOR_ALINEACION: alineacion CERRAR ATRIBUTO MAYOR
+                    MENOR ATRIBUTO NOMBRE IGUAL ATRIBUTO_COLOR MAYOR TEXTO:color CERRAR ATRIBUTO MAYOR
+                    {:
+                        Parrafo parrafo = new Parrafo();
+                        parrafo.setColor(color);
+                        parrafo.setTexto(txt);
+                        parrafo.setAlineacion(alineacion);
+                        RESULT = (Parrafo) parrafo;
+                    :}
+                    ;
+
+crear_img::=    COMPONENTE_IMAGEN:clase CERRAR PARAMETRO MAYOR CERRAR PARAMETROS MAYOR MENOR ATRIBUTOS MAYOR atributos_img:img CERRAR ATRIBUTOS MAYOR
+                {:
+                    Img image = img;
+                    image.setClase(clase);
+                    RESULT = image;
+
+                :}
+                ;
+
+atributos_img::=    url_img:url altura_img:h ancho_img:a {: RESULT = new Img(h, a, url); :}
+                |   url_img:url ancho_img:a altura_img:h {: RESULT = new Img(h, a, url); :}
+                |   ancho_img:a altura_img:h url_img:url {: RESULT = new Img(h, a, url); :}
+                |   ancho_img:a url_img:url altura_img:h {: RESULT = new Img(h, a, url); :}
+                |   altura_img:h url_img:url ancho_img:a {: RESULT = new Img(h, a, url); :}
+                |   altura_img:h ancho_img:a url_img:url {: RESULT = new Img(h, a, url); :}
+
+                |   url_img:url altura_img:h ancho_img:a alineacion_img:alineacion {: RESULT = new Img(h, a, url, alineacion); :}
+                |   url_img:url ancho_img:a altura_img:h alineacion_img:alineacion {: RESULT = new Img(h, a, url, alineacion); :}
+                |   ancho_img:a altura_img:h url_img:url alineacion_img:alineacion {: RESULT = new Img(h, a, url, alineacion); :}
+                |   ancho_img:a url_img:url altura_img:h alineacion_img:alineacion {: RESULT = new Img(h, a, url, alineacion); :}
+                |   altura_img:h url_img:url ancho_img:a alineacion_img:alineacion {: RESULT = new Img(h, a, url, alineacion); :}
+                |   altura_img:h ancho_img:a url_img:url alineacion_img:alineacion {: RESULT = new Img(h, a, url, alineacion); :}
+                
+                |   alineacion_img:alineacion url_img:url altura_img:h ancho_img:a {: RESULT = new Img(h, a, url, alineacion); :}
+                |   alineacion_img:alineacion url_img:url ancho_img:a altura_img:h {: RESULT = new Img(h, a, url, alineacion); :}
+                |   alineacion_img:alineacion ancho_img:a altura_img:h url_img:url {: RESULT = new Img(h, a, url, alineacion); :}
+                |   alineacion_img:alineacion ancho_img:a url_img:url altura_img:h {: RESULT = new Img(h, a, url, alineacion); :}
+                |   alineacion_img:alineacion altura_img:h url_img:url ancho_img:a {: RESULT = new Img(h, a, url, alineacion); :}
+                |   alineacion_img:alineacion altura_img:h ancho_img:a url_img:url {: RESULT = new Img(h, a, url, alineacion); :}
+
+                |   url_img:url alineacion_img:alineacion altura_img:h ancho_img:a {: RESULT = new Img(h, a, url, alineacion); :}
+                |   url_img:url alineacion_img:alineacion ancho_img:a altura_img:h {: RESULT = new Img(h, a, url, alineacion); :}
+                |   ancho_img:a alineacion_img:alineacion altura_img:h url_img:url {: RESULT = new Img(h, a, url, alineacion); :}
+                |   ancho_img:a alineacion_img:alineacion url_img:url altura_img:h {: RESULT = new Img(h, a, url, alineacion); :}
+                |   altura_img:h alineacion_img:alineacion url_img:url ancho_img:a {: RESULT = new Img(h, a, url, alineacion); :}
+                |   altura_img:h alineacion_img:alineacion ancho_img:a url_img:url {: RESULT = new Img(h, a, url, alineacion); :}
+
+                |   url_img:url altura_img:h alineacion_img:alineacion ancho_img:a {: RESULT = new Img(h, a, url, alineacion); :}
+                |   url_img:url ancho_img:a alineacion_img:alineacion altura_img:h {: RESULT = new Img(h, a, url, alineacion); :}
+                |   ancho_img:a altura_img:h alineacion_img:alineacion url_img:url {: RESULT = new Img(h, a, url, alineacion); :}
+                |   ancho_img:a url_img:url alineacion_img:alineacion altura_img:h {: RESULT = new Img(h, a, url, alineacion); :}
+                |   altura_img:h url_img:url alineacion_img:alineacion ancho_img:a {: RESULT = new Img(h, a, url, alineacion); :}
+                |   altura_img:h ancho_img:a alineacion_img:alineacion url_img:url {: RESULT = new Img(h, a, url, alineacion); :}
+                ;
+
+crear_video::=  COMPONENTE_VIDEO: clase CERRAR PARAMETRO MAYOR CERRAR PARAMETROS MAYOR MENOR ATRIBUTOS MAYOR atributos_video:video CERRAR ATRIBUTOS MAYOR
+                {:
+                    Video v = video;
+                    v.setClase(clase);
+                    RESULT = v;
+                :}
+                ;
+
+atributos_video::=      url_img:url altura_img:h ancho_img:ancho {: RESULT = new Video(h,  ancho, url); :}
+                    |   url_img:url ancho_img:ancho altura_img:h {: RESULT = new Video(h,  ancho, url); :}
+                    |   ancho_img:ancho altura_img:h url_img:url {: RESULT = new Video(h,  ancho, url); :}
+                    |   ancho_img:ancho url_img:url altura_img:h {: RESULT = new Video(h,  ancho, url); :}
+                    |   altura_img:h ancho_img:ancho url_img:url {: RESULT = new Video(h,  ancho, url); :}
+                    |   altura_img:h url_img:url ancho_img:ancho {: RESULT = new Video(h,  ancho, url); :}
+                    ;                                
+
+url_img::=  MENOR ATRIBUTO NOMBRE IGUAL ATRIBUTO_ORIGEN MAYOR TEXTO:url CERRAR ATRIBUTO MAYOR
+            {:
+                RESULT = url;
+            :}
+            ;
+
+altura_img::=   MENOR ATRIBUTO NOMBRE IGUAL ATRIBUTO_ALTURA MAYOR TEXTO:altura CERRAR ATRIBUTO MAYOR
+                {:
+                    RESULT = Integer.parseInt(altura);
+                :}
+                ;                             
+
+ancho_img::=    MENOR ATRIBUTO NOMBRE IGUAL ATRIBUTO_ANCHO MAYOR TEXTO:ancho CERRAR ATRIBUTO MAYOR
+                {:
+                    RESULT = Integer.parseInt(ancho);
+                :}
+                ;   
+
+alineacion_img::=   MENOR ATRIBUTO NOMBRE IGUAL ATRIBUTO_ALINEACION MAYOR VALOR_ALINEACION:alineacion CERRAR ATRIBUTO MAYOR
+                    {:
+                        RESULT = alineacion;
+                    :}
+                    ;
+
+params_delete_component::=  MENOR PARAMETRO NOMBRE IGUAL PARAMETRO_ID MAYOR TEXTO:id CERRAR PARAMETRO MAYOR 
+                            MENOR PARAMETRO NOMBRE IGUAL PARAMETRO_PAGINA MAYOR TEXTO:pagina CERRAR PARAMETRO MAYOR
+                            {: 
+                                RESULT = new AccionDeletComponent(id, pagina);
+                            :}
+                            ;

@@ -16,12 +16,28 @@ public class Img extends Componente {
         this.alineacion = alineacion;
     }
 
+    public Img(int altura, int anchura, String ruta) {
+        this.altura = altura;
+        this.anchura = anchura;
+        this.ruta = ruta;
+    }
+
     public Img(String id, String pagina, String clase, int altura, int anchura, String ruta, String alineacion) {
         super(id, pagina, clase);
         this.altura = altura;
         this.anchura = anchura;
         this.ruta = ruta;
         this.alineacion = alineacion;
+    }
+
+    @Override
+    public String toString() {
+        return "Img{" +
+                "altura=" + altura +
+                ", anchura=" + anchura +
+                ", ruta='" + ruta + '\'' +
+                ", alineacion='" + alineacion + '\'' +
+                "}\n";
     }
 
     public int getAltura() {

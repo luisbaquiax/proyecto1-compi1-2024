@@ -5,7 +5,15 @@ public class Parrafo extends Titulo {
         super(id, pagina, clase, texto, alineacion, color);
     }
 
+    public Parrafo() {
+    }
+
     public Parrafo(String texto, String alineacion, String color) {
         super(texto, alineacion, color);
+    }
+
+    @Override
+    public String toString() {
+        return "Parrafo{id= "+getId()+" txt= "+getTexto()+"}\n";
     }
 }

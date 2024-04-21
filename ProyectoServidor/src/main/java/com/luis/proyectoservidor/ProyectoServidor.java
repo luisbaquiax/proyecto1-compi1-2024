@@ -6,10 +6,12 @@ package com.luis.proyectoservidor;
 
 
 import com.luis.proyectoservidor.lexer.AccionesLexer;
+import com.luis.proyectoservidor.objetos.*;
 import com.luis.proyectoservidor.parser.AccionesParser;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.List;
 
 /**
  *
@@ -21,12 +23,121 @@ public class ProyectoServidor {
         /*Servidor servidor = new Servidor();
         servidor.setVisible(true);*/
         String contenido = """
-                [-id]
-                """;
+                <Acciones>
+                    <accion nombre="BORRAR_COMPONENTE">
+                                  <parametros>
+                                              <parametro nombre="ID">
+                                                  [-aaa1]
+                                              </parametro>
+                                              <parametro nombre="PAGINA">
+                                                  [_productos]
+                                              </parametro>
+                                  </parametros>
+                    </accion>
+                    <accion nombre="BORRAR_COMPONENTE">
+                                  <parametros>
+                                              <parametro nombre="ID">
+                                                  [-aaa1]
+                                              </parametro>
+                                              <parametro nombre="PAGINA">
+                                                  [_productos]
+                                              </parametro>
+                                  </parametros>
+                    </accion>
+                    <accion nombre="BORRAR_COMPONENTE">
+                                  <parametros>
+                                              <parametro nombre="ID">
+                                                  [-aaa1]
+                                              </parametro>
+                                              <parametro nombre="PAGINA">
+                                                  [_productos]
+                                              </parametro>
+                                  </parametros>
+                    </accion>
+                    <accion nombre="BORRAR_SITIO_WEB">
+                                  <parametros>
+                                              <parametro nombre="ID">
+                                                  [-aaa1]
+                                              </parametro>
+                                  </parametros>
+                    </accion>
+                    <accion nombre="BORRAR_SITIO_WEB">
+                                  <parametros>
+                                              <parametro nombre="ID">
+                                                  [-aaa1]
+                                              </parametro>
+                                  </parametros>
+                    </accion>
+                    <accion nombre="BORRAR_PAGINA">
+                                  <parametros>
+                                              <parametro nombre="ID">
+                                                  [-aaa1]
+                                              </parametro>
+                                  </parametros>
+                    </accion>
+                    <accion nombre="BORRAR_PAGINA">
+                                  <parametros>
+                                              <parametro nombre="ID">
+                                                  [-aaa1]
+                                              </parametro>
+                                  </parametros>
+                    </accion>
+                    <accion nombre="BORRAR_PAGINA">
+                                  <parametros>
+                                              <parametro nombre="ID">
+                                                  [-aaa1]
+                                              </parametro>
+                                  </parametros>
+                    </accion>
+                </Acciones>                                
+                       """;
         AccionesLexer lexer = new AccionesLexer(new StringReader(contenido));
-        AccionesParser parser = new AccionesParser(lexer);
+
+        /*while (!lexer.yyatEOF()){
+            Token token = lexer.yylex();
+            System.out.println("lexema:"+token.lexema);
+        }*/
+
+       AccionesParser parser = new AccionesParser(lexer);
         try {
             parser.parse();
+            List<Componente> componentes = parser.componentes;
+            System.out.println("Componentes....");
+            for (int i = 0; i < componentes.size(); i++) {
+                if(componentes.get(i) instanceof Parrafo titulo){
+                    System.out.println(titulo.toString());
+                }else if(componentes.get(i) instanceof Titulo pa){
+                    System.out.println(pa.toString());
+                }else if(componentes.get(i) instanceof Img img){
+                    System.out.println(img.toString());
+                }else if(componentes.get(i) instanceof Video var){
+                    System.out.println(var.toString());
+                }
+            }
+            System.out.println("Modificar componentes....");
+            List<Componente> componentes1 = parser.componentesModificacion;
+            for (int i = 0; i < componentes1.size(); i++) {
+                if(componentes1.get(i) instanceof Parrafo titulo){
+                    System.out.println(titulo.toString());
+                }else if(componentes1.get(i) instanceof Titulo pa){
+                    System.out.println(pa.toString());
+                }else if(componentes1.get(i) instanceof Img img){
+                    System.out.println(img.toString());
+                }else if(componentes1.get(i) instanceof Video var){
+                    System.out.println(var.toString());
+                }
+            }
+            System.out.println("Acciones....");
+            List<Accion> acciones = parser.acciones;
+            for (int i = 0; i < acciones.size(); i++) {
+                if(acciones.get(i)instanceof AccionDeletComponent var){
+                    System.out.println(var.toString());
+                }else if(acciones.get(i) instanceof  AccionDeleteSitio var){
+                    System.out.println(var.toString());
+                }else if(acciones.get(i) instanceof  AccionDeletePage var){
+                    System.out.println(var.toString());
+                }
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

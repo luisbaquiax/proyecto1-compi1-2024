@@ -14,6 +14,15 @@ public class Componente {
         this.clase = clase;
     }
 
+    @Override
+    public String toString() {
+        return "Componente{" +
+                "id='" + id + '\'' +
+                ", pagina='" + pagina + '\'' +
+                ", clase='" + clase + '\'' +
+                "}\n";
+    }
+
     public String getId() {
         return id;
     }

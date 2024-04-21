@@ -2,7 +2,7 @@
 /* codigo de usuario */
 package com.luis.proyectoservidor.lexer;
 import com.luis.proyectoservidor.parser.sym;
-import java.util.ArrayList;
+import java.util.*;
 import java.io.StringReader;
 
 import java_cup.runtime.*;
@@ -116,12 +116,17 @@ color_hexagonal =[\#][0-9a-fA-F]{6}
 
     "<"                             {
                                     System.out.println(yytext());
-                                    return symbol(sym.MENOR_QUE, yytext());
+                                    return symbol(sym.MENOR, yytext());
+                                    }
+
+    "</"                             {
+                                    System.out.println(yytext());
+                                    return symbol(sym.CERRAR, yytext());
                                     }
 
     ">"                             {
                                      System.out.println(yytext());
-                                    return symbol(sym.MAYOR_QUE, yytext());
+                                    return symbol(sym.MAYOR, yytext());
                                     }
 
     "="                             {
@@ -265,6 +270,16 @@ color_hexagonal =[\#][0-9a-fA-F]{6}
                                     texto.setLength(0); yybegin(VALOR_CORCHETES);
                                     }
 
+    "\"" {
+         System.out.println(yytext());
+         return symbol(sym.COMILLA, yytext());
+    }
+
+    {id}                            {
+                                    System.out.println(yytext());
+                                    return symbol(sym.IDENTIFICADOR, yytext());
+                                    }
+
     {cadena} {
          System.out.println(yytext());
          return symbol(sym.CADENA, yytext());
@@ -276,8 +291,7 @@ color_hexagonal =[\#][0-9a-fA-F]{6}
 
 <VALOR_CORCHETES>{
 
-
-    {cadena}                        {
+    /*{cadena}                        {
                                     System.out.println(yytext());
                                     return symbol(sym.CADENA, yytext());
                                     }
@@ -297,71 +311,55 @@ color_hexagonal =[\#][0-9a-fA-F]{6}
                                     return symbol(sym.COLOR_HEXAGONAL, yytext());
                                     }
 
-    "VIDEO"	                        {
-                                    System.out.println(yytext());
-                                    return symbol(sym.COMPONENTE_VIDEO, yytext());
-                                    }
-
-    "MENU"	                        {
-                                    //System.out.println(yytext());
-                                    return symbol(sym.COMPONENTE_MENU, yytext());
-                                    }
-
-    "PARRAFO"	                    {
-                                    //System.out.println(yytext());
-                                    return symbol(sym.COMP_PARRAFO, yytext());
-                                    }
-
-    "IMAGEN"	                    {
-                                    //System.out.println(yytext());
-                                    return symbol(sym.COMPONENTE_IMAGEN, yytext());
-                                    }
-
-    "TITULO"	                    {
-                                    System.out.println(yytext());
-                                    return symbol(sym.COMP_TITULO, yytext());
-                                    }
-
-    "CENTRAR"	                    {
-                                    System.out.println(yytext());
-                                    return symbol(sym.VALOR_ATRIBUTO_CENTRAR, yytext());
-                                    }
-
-    "IZQUIERDA"	                    {
-                                    System.out.println(yytext());
-                                    return symbol(sym.VALOR_ATRIBUTO_IZQUIERDA, yytext());
-                                    }
-
-    "DERECHA"	                    {
-                                    System.out.println(yytext());
-                                    return symbol(sym.VALOR_ATRIBUTO_DERECHA, yytext());
-                                    }
-
-    "JUSTIFICAR"	                {
-                                    System.out.println(yytext());
-                                    return symbol(sym.VALOR_ATRIBUTO_JUSTIFICAR, yytext());
-                                    }
-
     {id}                            {
                                     System.out.println(yytext());
                                     return symbol(sym.IDENTIFICADOR, yytext());
-                                    }
+                                    }*/
 
     //{WhiteSpace}                    { /* Ignorar espacios en blanco */ }
-
-     [\x00-\x7F]                    {
-                                    texto.append(yytext());
-                                    }
-
-  [-|a-z|A-Z|0-9|-|_| |/|#|$|@|!|%|&|*|(|)|.|,|-|=|+|:|\/\/||]+         { texto.append(yytext()); }
+  [-|a-z|A-Z|0-9|\"|-|_| |/|#|$|@|!|%|&|*|(|)|.|,|-|=|+|:|\/\/||]+         { texto.append(yytext()); }
           \\t                          { texto.append('\t'); }
           \\n                          { texto.append('\n'); }
           \\r                          { texto.append('\r'); }
           \\\"                         { texto.append('\"'); }
           \\                           { texto.append('\\'); }
-          \]                           { yybegin(YYINITIAL); return symbol(sym.TEXTO, texto.toString());}
+          \]                           {
+                yybegin(YYINITIAL); 
 
-
+                if(texto.toString().equals("TITULO")){
+                    System.out.println(texto.toString()); 
+                    return symbol(sym.COMP_TITULO, texto.toString());
+                }else if(texto.toString().equals("PARRAFO")){
+                    System.out.println(texto.toString()); 
+                    return symbol(sym.COMP_PARRAFO, texto.toString());
+                }else if(texto.toString().equals("VIDEO")){
+                    System.out.println(texto.toString()); 
+                    return symbol(sym.COMPONENTE_VIDEO, texto.toString());
+                }else if(texto.toString().equals("MENU")){
+                    System.out.println(texto.toString()); 
+                    return symbol(sym.COMPONENTE_MENU, texto.toString());
+                }else if(texto.toString().equals("IMAGEN")){
+                    System.out.println(texto.toString()); 
+                    return symbol(sym.COMPONENTE_IMAGEN, texto.toString());
+                }else if(texto.toString().equals("CENTRAR")){
+                    System.out.println(texto.toString()); 
+                    return symbol(sym.VALOR_ALINEACION, texto.toString());
+                }else if(texto.toString().equals("JUSTIFICAR")){
+                    System.out.println(texto.toString()); 
+                    return symbol(sym.VALOR_ALINEACION, texto.toString());
+                }else if(texto.toString().equals("IZQUIERDA")){
+                    System.out.println(texto.toString()); 
+                    return symbol(sym.VALOR_ALINEACION, texto.toString());
+                }else if(texto.toString().equals("DERECHA")){
+                    System.out.println(texto.toString()); 
+                    return symbol(sym.VALOR_ALINEACION, texto.toString());
+                }
+                else {
+                    System.out.println(texto.toString()); 
+                    return symbol(sym.TEXTO, texto.toString());
+                } 
+                
+            }
 }
 
 /* error fallback */
