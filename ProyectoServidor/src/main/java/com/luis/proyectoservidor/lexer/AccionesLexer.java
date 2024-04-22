@@ -1057,7 +1057,7 @@ public class AccionesLexer implements java_cup.runtime.Scanner {
           // fall through
           case 84: break;
           case 22:
-            { //System.out.println(yytext());
+            { System.out.println(yytext());
                                     return symbol(sym.COMPONENTE_MENU, yytext());
             }
           // fall through
@@ -1087,7 +1087,7 @@ public class AccionesLexer implements java_cup.runtime.Scanner {
           // fall through
           case 89: break;
           case 27:
-            { //System.out.println(yytext());
+            { System.out.println(yytext());
                                     return symbol(sym.COMPONENTE_IMAGEN, yytext());
             }
           // fall through
@@ -1147,7 +1147,7 @@ public class AccionesLexer implements java_cup.runtime.Scanner {
           // fall through
           case 99: break;
           case 37:
-            { //System.out.println(yytext());
+            { System.out.println(yytext());
                                     return symbol(sym.COMP_PARRAFO, yytext());
             }
           // fall through

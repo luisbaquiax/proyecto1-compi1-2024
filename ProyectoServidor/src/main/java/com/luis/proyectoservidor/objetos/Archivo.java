@@ -9,10 +9,10 @@ public class Archivo {
 
     public static final String CARPETA_SITIOS = "C:/Users/Usuario/Desktop/proyecto1-compi1-2024/sitios";
     public static final String CARPETA_DATOS = "C:/Users/Usuario/Desktop/proyecto1-compi1-2024/datos";
-    public static  final String RUTA_SITIOS = "C:/Users/Usuario/Desktop/proyecto1-compi1-2024/datos/sitios.data";
-    public static  final String RUTA_PAGINAS = "C:/Users/Usuario/Desktop/proyecto1-compi1-2024/datos/pages.data";
-    public static  final String RUTA_COMPONENTES = "C:/Users/Usuario/Desktop/proyecto1-compi1-2024/datos/components.data";
-    public static  final String ARCHIVO_XML = "C:/Users/Usuario/Desktop/proyecto1-compi1-2024/datos/archivo.xml";
+    public static final String RUTA_SITIOS = "C:/Users/Usuario/Desktop/proyecto1-compi1-2024/datos/sitios.data";
+    public static final String RUTA_PAGINAS = "C:/Users/Usuario/Desktop/proyecto1-compi1-2024/datos/pages.data";
+    public static final String RUTA_COMPONENTES = "C:/Users/Usuario/Desktop/proyecto1-compi1-2024/datos/components.data";
+    public static final String ARCHIVO_XML = "C:/Users/Usuario/Desktop/proyecto1-compi1-2024/datos/archivo.xml";
 
     public Archivo() {
     }
@@ -45,15 +45,16 @@ public class Archivo {
             return obj;
 
         } catch (IOException | ClassNotFoundException ex) {
+            System.out.println("no se pudo leer el archivo");
             return null;
         }
     }
 
     public Object getObjectDatos(String path) throws IOException, ClassNotFoundException {
-            ObjectInputStream flujoSalida = new ObjectInputStream(new FileInputStream(path));
-            Object salida = flujoSalida.readObject();
-            flujoSalida.close();
-            return salida;
+        ObjectInputStream flujoSalida = new ObjectInputStream(new FileInputStream(path));
+        Object salida = flujoSalida.readObject();
+        flujoSalida.close();
+        return salida;
     }
 
     public void escribirArchivo(String ruta, String contenido) {
@@ -69,18 +70,18 @@ public class Archivo {
             System.out.println("archivo creado");
             bw.close();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("fallo al escribir archivo, "+e.getMessage());
         }
     }
 
     public void crearCarpeta(String ruta, String nombreCarpeta) throws FileNotFoundException, IOException {
-        File carpeta = new File(ruta+File.separator+nombreCarpeta);
+        File carpeta = new File(ruta + File.separator + nombreCarpeta);
         if (carpeta.mkdir()) {
             System.out.println("creado");
             System.out.println(carpeta.getAbsolutePath());
         } else {
-            System.out.println("no creado");
-            System.out.println(carpeta.getAbsolutePath());
+            System.out.println("carpeta no creada: " + ruta);
+            System.out.println("carpeta no creada:" + carpeta.getAbsolutePath());
         }
     }
 }

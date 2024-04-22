@@ -1,6 +1,9 @@
 package com.luis.proyectoservidor.objetos;
 
 public class AccionDeleteSitio extends Accion {
+    /**
+     * Id del sitio
+     */
     private String id;
 
     public AccionDeleteSitio(String id) {
@@ -17,6 +20,10 @@ public class AccionDeleteSitio extends Accion {
         return "AccionDeleteSitio{" + "tipo: " + getTipo() + " id: " + getId() + " }\n";
     }
 
+    /**
+     * Id del sitio
+     * @return
+     */
     public String getId() {
         return id;
     }

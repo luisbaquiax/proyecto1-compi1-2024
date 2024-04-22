@@ -25,6 +25,27 @@ public class CreadorSitios {
             System.out.println("creando htmls...");
             crearPaginas(sitios.get(i));
         }
+        for (int i = 0; i < sitios.size(); i++) {
+            String ruta = Archivo.CARPETA_SITIOS + File.separator + sitios.get(i).getId();
+            //archivo.escribirArchivo(ruta, contenido);
+        }
+    }
+
+    private String escribirIndexHtml(Sitio sitio) {
+        String html = "";
+        html+="<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                "    <title>Document</title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "    <div></div>\n" +
+                "    <a href=\"\"></a>  <a href=\"\"></a>\n" +
+                "</body>\n" +
+                "</html>";
+        return html;
     }
 
     public void crearPaginas(Sitio sitio) {
@@ -63,7 +84,9 @@ public class CreadorSitios {
     public String createComponents(List<Componente> components) {
         StringBuilder contenido = new StringBuilder();
         for (int i = 0; i < components.size(); i++) {
-            if (components.get(i) instanceof Titulo titulo) {
+            if (components.get(i) instanceof Menu menu) {
+                contenido.append(creadorComponent.createMenu(menu.getEtiquetas(), menu.getPadre()));
+            } else if (components.get(i) instanceof Titulo titulo) {
                 contenido.append(creadorComponent.crearTituloParrafo(titulo.getTexto(), titulo.getAlineacion(), titulo.getColor()));
             } else if (components.get(i) instanceof Parrafo parrafo) {
                 contenido.append(creadorComponent.crearTituloParrafo(parrafo.getTexto(), parrafo.getAlineacion(), parrafo.getColor()));

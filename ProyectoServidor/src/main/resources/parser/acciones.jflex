@@ -327,17 +327,17 @@ color_hexagonal =[\#][0-9a-fA-F]{6}
                                     }
 
     "MENU"	                        {
-                                    //System.out.println(yytext());
+                                    System.out.println(yytext());
                                     return symbol(sym.COMPONENTE_MENU, yytext());
                                     }
 
     "PARRAFO"	                    {
-                                    //System.out.println(yytext());
+                                    System.out.println(yytext());
                                     return symbol(sym.COMP_PARRAFO, yytext());
                                     }
 
     "IMAGEN"	                    {
-                                    //System.out.println(yytext());
+                                    System.out.println(yytext());
                                     return symbol(sym.COMPONENTE_IMAGEN, yytext());
                                     }
 

@@ -23,408 +23,295 @@ public class ProyectoServidor {
         /*Servidor servidor = new Servidor();
         servidor.setVisible(true);*/
         String contenido = """
-                <Acciones>
-                                <accion nombre="NUEVO_SITIO_WEB">
-                                                    <parametros>
-                                                      <parametro nombre="ID">
-                                                                [-pagina1]
-                                                            </parametro>
-                                                      <parametro nombre="USUARIO_CREACION">
-                                                                [-user1]
-                                                            </parametro>
-                                                      <parametro nombre="FECHA_CREACION">
-                                                                [2024-12-22]
-                                                            </parametro>
-                                                      <parametro nombre="FECHA_MODIFICACION">
-                                                                 [2024-12-12]
-                                                            </parametro>
-                                                      <parametro nombre="USUARIO_MODIFICACION">
-                                                                [-user1]
-                                                            </parametro>
-                                                    </parametros>
-                                                  </accion>
-                                                  <accion nombre="AGREGAR_COMPONENTE">
-                                                          <parametros>
-                                                                      <parametro nombre="ID">
-                                                                          [-comp1]
+                <acciones>
+                                                          <accion nombre="NUEVO_SITIO_WEB">
+                                                            <parametros>
+                                                              <parametro nombre="ID">
+                                                                        [-sitio1]
+                                                                    </parametro>
+                                                              <parametro nombre="USUARIO_CREACION">
+                                                                        [-user1]
+                                                                    </parametro>
+                                                              <parametro nombre="FECHA_CREACION">
+                                                                        [2024-12-22]
+                                                                    </parametro>
+                                                              <parametro nombre="FECHA_MODIFICACION">
+                                                                         [2024-12-12]
+                                                                    </parametro>
+                                                              <parametro nombre="USUARIO_MODIFICACION">
+                                                                        [-user1]
+                                                                    </parametro>
+                                                            </parametros>
+                                                               \s
+                                                          </accion>
+                                                             \s
+                                                          <accion nombre="NUEVA_PAGINA">
+                                                            <parametros>
+                                                              <parametro nombre="ID">
+                                                                        [-pagina1]
+                                                                    </parametro>
+                                                              <parametro nombre="TITULO">
+                                                                        [PAGINA1]
+                                                                    </parametro>
+                                                              <parametro nombre="SITIO">
+                                                                         [-sitio1]
+                                                                    </parametro>
+                                                              <parametro nombre="PADRE">
+                                                                         [-pagina2]
+                                                                    </parametro>
+                                                              <parametro nombre="USUARIO_CREACION">
+                                                                       [-usuario1]
+                                                                    </parametro>
+                                                              <parametro nombre="FECHA_CREACION">
+                                                                        [2024-12-12]
+                                                                    </parametro>
+                                                              <parametro nombre="FECHA_MODIFICACION">
+                                                                        [2024-01-12]
+                                                                    </parametro>
+                                                              <parametro nombre="USUARIO_MODIFICACION">
+                                                                        [-usuario1]
+                                                                    </parametro>
+                                                                  </parametros>
+                                                              <etiquetas>
+                                                                <etiqueta valor="-productos"/>
+                                                                <etiqueta valor="-hola"/>
+                                                              </etiquetas>
+                                                          </accion>    \s
+                                                        
+                                                          <accion nombre="NUEVA_PAGINA">
+                                                            <parametros>
+                                                              <parametro nombre="ID">
+                                                                        [-pagina2]
+                                                                    </parametro>
+                                                              <parametro nombre="TITULO">
+                                                                        [PAGINA1]
+                                                                    </parametro>
+                                                              <parametro nombre="SITIO">
+                                                                         [-sitio1]
+                                                                    </parametro>
+                                                              <parametro nombre="PADRE">
+                                                                         [-pagina2]
+                                                                    </parametro>
+                                                              <parametro nombre="USUARIO_CREACION">
+                                                                       [-usuario1]
+                                                                    </parametro>
+                                                              <parametro nombre="FECHA_CREACION">
+                                                                        [2024-12-12]
+                                                                    </parametro>
+                                                              <parametro nombre="FECHA_MODIFICACION">
+                                                                        [2024-01-12]
+                                                                    </parametro>
+                                                              <parametro nombre="USUARIO_MODIFICACION">
+                                                                        [-usuario1]
+                                                                    </parametro>
+                                                                  </parametros>
+                                                              <etiquetas>
+                                                                <etiqueta valor="-productos"/>
+                                                              </etiquetas>
+                                                          </accion>
+                                                         \s
+                                                          <accion nombre="NUEVA_PAGINA">
+                                                            <parametros>
+                                                              <parametro nombre="ID">
+                                                                        [-pagina3]
+                                                                    </parametro>
+                                                              <parametro nombre="TITULO">
+                                                                        [PAGINA1]
+                                                                    </parametro>
+                                                              <parametro nombre="SITIO">
+                                                                         [-sitio1]
+                                                                    </parametro>
+                                                              <parametro nombre="PADRE">
+                                                                         [-pagina2]
+                                                                    </parametro>
+                                                              <parametro nombre="USUARIO_CREACION">
+                                                                       [-usuario1]
+                                                                    </parametro>
+                                                              <parametro nombre="FECHA_CREACION">
+                                                                        [2024-12-12]
+                                                                    </parametro>
+                                                              <parametro nombre="FECHA_MODIFICACION">
+                                                                        [2024-01-12]
+                                                                    </parametro>
+                                                              <parametro nombre="USUARIO_MODIFICACION">
+                                                                        [-usuario1]
+                                                                    </parametro>
+                                                                  </parametros>
+                                                              <etiquetas>
+                                                                <etiqueta valor="-productos"/>
+                                                              </etiquetas>
+                                                          </accion>
+                                                        
+                                                          <accion nombre="MODIFICAR_PAGINA">
+                                                              <parametros>
+                                                                    <parametro nombre="ID">
+                                                                          [-pagina1]
+                                                                      </parAmetRo>
+                                                                      <parametro nombre="TITULO">
+                                                                          [nuevo titulo]
                                                                       </parametro>
-                                                                      <parametro nombre="PAGINA">
-                                                                          [-productos]
+                                                              </parametros>
+                                                              <etiquetas>
+                                                                        <etiqueta valor="-productos2"/>
+                                                                        <etiqueta valor="-zapatos2"/>
+                                                              </etiquetas>
+                                                          </accion>
+                                                              \s
+                                                          <accion nombre="BORRAR_SITIO_WEB">
+                                                              <parametros>
+                                                                <parametro nombre="ID">
+                                                                          [-sitio1]
                                                                       </parametro>
-                                                                      <parametro nombre="CLASE">
-                                                                          [TITULO]
-                                                                      </parametro>
-                                                          </parametros>
-                                                          <atributos>
-                                                                  <atributo nombre="TEXTO">
-                                                                  [\"Este es el texto que aparece en el titulo :) \"]
-                                                              </atributo>
-                                                              <atributo nombre="ALINEACION">
-                                                                  [DERECHA]
-                                                              </atributo>
-                                                                  <atributo nombre="COLOR">
-                                                                  [#5A5A5A]
-                                                              </atributo>
-                                                          </atributos>
-                                                      </accion>
-                                                      <accion nombre="AGREGAR_COMPONENTE">
-                                                          <parametros>
-                                                                      <parametro nombre="ID">
-                                                                          [-comp1]
-                                                                      </parametro>
-                                                                      <parametro nombre="PAGINA">
-                                                                          [-productos]
-                                                                      </parametro>
-                                                                      <parametro nombre="CLASE">
-                                                                          [TITULO]
-                                                                      </parametro>
-                                                          </parametros>
-                                                          <atributos>
-                                                                  <atributo nombre="TEXTO">
-                                                                  [Este es el texto que aparece en el titulo :) ]
-                                                              </atributo>
-                                                              <atributo nombre="ALINEACION">
-                                                                  [DERECHA]
-                                                              </atributo>
-                                                                  <atributo nombre="COLOR">
-                                                                  [#5A5A5A]
-                                                              </atributo>
-                                                          </atributos>
-                                                      </accion>
-                                                      <accion nombre="AGREGAR_COMPONENTE">
-                                                          <parametros>
-                                                                      <parametro nombre="ID">
-                                                                          [-comp1]
-                                                                      </parametro>
-                                                                      <parametro nombre="PAGINA">
-                                                                          [-productos]
-                                                                      </parametro>
-                                                                      <parametro nombre="CLASE">
-                                                                          [PARRAFO]
-                                                                      </parametro>
-                                                          </parametros>
-                                                          <atributos>
-                                                                  <atributo nombre="TEXTO">
-                                                                  [Este es el texto que aparece en el titulo :) ]
-                                                              </atributo>
-                                                              <atributo nombre="ALINEACION">
-                                                                  [DERECHA]
-                                                              </atributo>
-                                                                  <atributo nombre="COLOR">
-                                                                  [#5A5A5A]
-                                                              </atributo>
-                                                          </atributos>
-                                                      </accion>
-                                                     \s
-                                                        <accion nombre="AGREGAR_COMPONENTE">
+                                                              </parametros>
+                                                          </accion>
+                                                              \s
+                                                          <accion nombre="BORRAR_PAGINA">
+                                                            <parametros>
+                                                              <parametro nombre="ID">
+                                                                        [-pagina1]
+                                                                    </parametro>
+                                                            </parametros>
+                                                          </accion>
+                                                              \s
+                                                        
+                                                          <accion nombre="AGREGAR_COMPONENTE">
+                                                                <parametros>
+                                                                            <parametro nombre="ID">
+                                                                                [-comp1]
+                                                                            </parametro>
+                                                                            <parametro nombre="PAGINA">
+                                                                                [-pagina1]
+                                                                            </parametro>
+                                                                            <parametro nombre="CLASE">
+                                                                                [TITULO]
+                                                                            </parametro>
+                                                                </parametros>
+                                                                <atributos>
+                                                                        <atributo nombre="TEXTO">
+                                                                        [PRODUCTOS]
+                                                                    </atributo>
+                                                                    <atributo nombre="ALINEACION">
+                                                                        [JUSTIFICAR]
+                                                                    </atributo>
+                                                                        <atributo nombre="COLOR">
+                                                                        [#5A5A5A]
+                                                                    </atributo>
+                                                                </atributos>
+                                                            </accion>
+                                                        
+                                                          <accion nombre="AGREGAR_COMPONENTE">
                                                               <parametros>
                                                                           <parametro nombre="ID">
-                                                                              [-aaa1]
+                                                                              [-a1]
                                                                           </parametro>
                                                                           <parametro nombre="PAGINA">
-                                                                              [_productos]
+                                                                              [-pagina1]
                                                                           </parametro>
                                                                           <parametro nombre="CLASE">
-                                                                              [IMAGEN]
+                                                                              [PARRAFO]
                                                                           </parametro>
                                                               </parametros>
                                                               <atributos>
-                                                                             <atributo nombre="ANCHO">
-                                                                      [12]
-                                                                      </atributo>
-                                                                      <atributo nombre="ALINEACION">
+                                                                      <atributo nombre="TEXTO">
+                                                                      [Este es el texto que aparece en el titulo :) ]
+                                                                  </atributo>
+                                                                    <atributo nombre="ALINEACION">
                                                                       [CENTRAR]
-                                                                      </atributo>
-                                                                      <atributo nombre="ORIGEN">
-                                                                      [soy url]
-                                                                      </atributo>
-                                                                     \s
-                                                                  <atributo nombre="ALTURA">
-                                                                      [12]
-                                                                      </atributo>
-                                                              \s
+                                                                  </atributo>
+                                                                    <atributo nombre="COLOR">
+                                                                      [#5A5A5A]
+                                                                  </atributo>
                                                               </atributos>
-                                                        </accion>
-                                                         <accion nombre="AGREGAR_COMPONENTE">
-                                                             <parametros>
-                                                                         <parametro nombre="ID">
-                                                                             [-aaa1]
-                                                                         </parametro>
-                                                                         <parametro nombre="PAGINA">
-                                                                             [_productos]
-                                                                         </parametro>
-                                                                         <parametro nombre="CLASE">
-                                                                             [VIDEO]
-                                                                         </parametro>
-                                                             </parametros>
-                                                             <atributos>
-                                                                     <atributo nombre="ORIGEN">
-                                                                     [ url]
-                                                                     </atributo>
-                                                                 <atributo nombre="ALTURA">
-                                                                     [12]
-                                                                     </atributo>
-                                                                     <atributo nombre="ANCHO">
-                                                                     [12]
-                                                                     </atributo>
-                                                             </atributos>
-                                                       </accion>  \s
-                                                      <accion nombre="MODIFICAR_COMPONENTE">
-                                                          <parametros>
-                                                                      <parametro nombre="ID">
-                                                                          [-aaa1]
-                                                                      </parametro>
-                                                                      <parametro nombre="PAGINA">
-                                                                          [_productos]
-                                                                      </parametro>
-                                                                      <parametro nombre="CLASE">
-                                                                          [VIDEO]
-                                                                      </parametro>
-                                                          </parametros>
-                                                          <atributos>
-                                                                <atributo nombre="ANCHO">
-                                                                  [12]
-                                                                  </atributo>
-                                                                 \s
-                                                              <atributo nombre="ALTURA">
-                                                                  [12]
-                                                                  </atributo>
-                                                              <atributo nombre="ORIGEN">
-                                                                  [ url]
-                                                                  </atributo>                                 \s
-                                                          </atributos>
-                                                    </accion>
-                                                        <accion nombre="MODIFICAR_COMPONENTE">
+                                                          </accion>
+                                                        
+                                                          <accion nombre="AGREGAR_COMPONENTE">
+                                                                <parametros>
+                                                                            <parametro nombre="ID">
+                                                                                [-pagina2]
+                                                                            </parametro>
+                                                                            <parametro nombre="PAGINA">
+                                                                                [-pagina2]
+                                                                            </parametro>
+                                                                            <parametro nombre="CLASE">
+                                                                                [IMAGEN]
+                                                                            </parametro>
+                                                                </parametros>
+                                                                <atributos>
+                                                                        <atributo nombre="ORIGEN">
+                                                                        [url]
+                                                                        </atributo>
+                                                                         <atributo nombre="ALTURA">
+                                                                        [12]
+                                                                        </atributo>
+                                                                         <atributo nombre="ANCHO">
+                                                                        [12]
+                                                                        </atributo>
+                                                                        <atributo nombre="ALINEACION">
+                                                                          [CENTRAR]
+                                                                        </atributo>
+                                                                </atributos>
+                                                          </accion>
+                                                        
+                                                          <accion nombre="AGREGAR_COMPONENTE">
+                                                        	<parametros>
+                                                                  		<parametro nombre="ID">
+                                                                      		[-aaa2]
+                                                                		</parametro>
+                                                                  		<parametro nombre="PAGINA">
+                                                                      		[-pagina2]
+                                                                		</parametro>
+                                                                  		<parametro nombre="CLASE">
+                                                                      		[MENU]
+                                                                		</parametro>
+                                                        	</parametros>
+                                                         	<atributos>
+                                                            		<atributo nombre="PADRE">
+                                                                      [-pagina2]
+                                                                    </atributo>
+                                                                   <atributo nombre="ETIQUETAS">
+                                                                      [-pagina1|-pagina2|-pagina3]
+                                                                    </atributo>
+                                                        	</atributos>
+                                                          </accion>
+                                                        
+                                                          <accion nombre="MODIFICAR_COMPONENTE">
+                                                                <parametros>
+                                                                            <parametro nombre="ID">
+                                                                                [-comp1]
+                                                                            </parametro>
+                                                                            <parametro nombre="PAGINA">
+                                                                                [-productos]
+                                                                            </parametro>
+                                                                            <parametro nombre="CLASE">
+                                                                                [PARRAFO]
+                                                                            </parametro>
+                                                                </parametros>
+                                                                <atributos>
+                                                                        <atributo nombre="TEXTO">
+                                                                        ["Este es el texto que aparece en el parrafo :) "]
+                                                                    </atributo>
+                                                                    <atributo nombre="ALINEACION">
+                                                                        [CENTRAR]
+                                                                    </atributo>
+                                                                    <atributo nombre="COLOR">
+                                                                        [#5A5A5A]
+                                                                    </atributo>
+                                                                </atributos>
+                                                          </accion>
+                                                          <accion nombre="BORRAR_COMPONENTE">
                                                               <parametros>
                                                                           <parametro nombre="ID">
-                                                                              [-aaa1]
+                                                                              [-comp1]
                                                                           </parametro>
                                                                           <parametro nombre="PAGINA">
-                                                                              [_productos]
-                                                                          </parametro>
-                                                                          <parametro nombre="CLASE">
-                                                                              [IMAGEN]
+                                                                              [-pagina1]
                                                                           </parametro>
                                                               </parametros>
-                                                              <atributos>
-                                                                             <atributo nombre="ANCHO">
-                                                                      [12]
-                                                                      </atributo>
-                                                                      <atributo nombre="ALINEACION">
-                                                                      [CENTRAR]
-                                                                      </atributo>
-                                                                      <atributo nombre="ORIGEN">
-                                                                      [ -idPadre]
-                                                                      </atributo>
-                                                                     \s
-                                                                  <atributo nombre="ALTURA">
-                                                                      [12]
-                                                                      </atributo>
-                                                              \s
-                                                              </atributos>
-                                                        </accion>   \s
-                                        <accion nombre="AGREGAR_COMPONENTE">
-                                              <parametros>
-                                                          <parametro nombre="ID">
-                                                              [-aaa1]
-                                                          </parametro>
-                                                          <parametro nombre="PAGINA">
-                                                              [_productos]
-                                                          </parametro>
-                                                          <parametro nombre="CLASE">
-                                                              [IMAGEN]
-                                                          </parametro>
-                                              </parametros>
-                                              <atributos>
-                                                             <atributo nombre="ANCHO">
-                                                      [12]
-                                                      </atributo>
-                                                      <atributo nombre="ALINEACION">
-                                                      [CENTRAR]
-                                                      </atributo>
-                                                      <atributo nombre="ORIGEN">
-                                                      [soy url]
-                                                      </atributo>
-                                                  <atributo nombre="ALTURA">
-                                                      [12]
-                                                      </atributo>
-                                              </atributos>
-                                        </accion>
-                    <accion nombre="BORRAR_COMPONENTE">
-                                  <parametros>
-                                              <parametro nombre="ID">
-                                                  [-aaa1]
-                                              </parametro>
-                                              <parametro nombre="PAGINA">
-                                                  [_productos]
-                                              </parametro>
-                                  </parametros>
-                    </accion>
-                    <accion nombre="BORRAR_COMPONENTE">
-                                  <parametros>
-                                              <parametro nombre="ID">
-                                                  [-aaa1]
-                                              </parametro>
-                                              <parametro nombre="PAGINA">
-                                                  [_productos]
-                                              </parametro>
-                                  </parametros>
-                    </accion>
-                    <accion nombre="BORRAR_COMPONENTE">
-                                  <parametros>
-                                              <parametro nombre="ID">
-                                                  [-aaa1]
-                                              </parametro>
-                                              <parametro nombre="PAGINA">
-                                                  [_productos]
-                                              </parametro>
-                                  </parametros>
-                    </accion>
-                    <accion nombre="BORRAR_SITIO_WEB">
-                                  <parametros>
-                                              <parametro nombre="ID">
-                                                  [-aaa1]
-                                              </parametro>
-                                  </parametros>
-                    </accion>
-                    <accion nombre="BORRAR_SITIO_WEB">
-                                  <parametros>
-                                              <parametro nombre="ID">
-                                                  [-aaa1]
-                                              </parametro>
-                                  </parametros>
-                    </accion>
-                    <accion nombre="BORRAR_PAGINA">
-                                  <parametros>
-                                              <parametro nombre="ID">
-                                                  [-aaa1]
-                                              </parametro>
-                                  </parametros>
-                    </accion>
-                    <accion nombre="BORRAR_PAGINA">
-                                  <parametros>
-                                              <parametro nombre="ID">
-                                                  [-aaa1]
-                                              </parametro>
-                                  </parametros>
-                    </accion>
-                    <accion nombre="BORRAR_PAGINA">
-                                  <parametros>
-                                              <parametro nombre="ID">
-                                                  [-aaa1]
-                                              </parametro>
-                                  </parametros>
-                    </accion>
-                    
-                      <accion nombre="NUEVO_SITIO_WEB">
-                        <parametros>
-                          <parametro nombre="ID">
-                                    [-pagina1]
-                                </parametro>
-                          <parametro nombre="USUARIO_CREACION">
-                                    [-user1]
-                                </parametro>
-                          <parametro nombre="FECHA_CREACION">
-                                    [2024-12-02]
-                                </parametro>
-                          <parametro nombre="FECHA_MODIFICACION">
-                                     [2024-12-12]
-                                </parametro>
-                          <parametro nombre="USUARIO_MODIFICACION">
-                                    [-user1]
-                                </parametro>
-                        </parametros>
-                      </accion>
-                    
-                      <accion nombre="NUEVO_SITIO_WEB">
-                        <parametros>
-                          <parametro nombre="ID">
-                                    [-pagina1]
-                                </parametro>
-                          <parametro nombre="USUARIO_CREACION">
-                                    [-user1]
-                                </parametro>
-                          <parametro nombre="FECHA_CREACION">
-                                    [2024-12-02]
-                                </parametro>
-                          <parametro nombre="FECHA_MODIFICACION">
-                                     [2024-12-12]
-                                </parametro>
-                          <parametro nombre="USUARIO_MODIFICACION">
-                                    [-user2]
-                                </parametro>
-                        </parametros>
-                      </accion>
-                        <accion nombre="NUEVA_PAGINA">
-                          <parametros>
-                            <parametro nombre="ID">
-                                      [-PAGINA1]
-                                  </parametro>
-                            <parametro nombre="TITULO">
-                                      [PAGINA1]
-                                  </parametro>
-                            <parametro nombre="SITIO">
-                                       [-PAGINA1]
-                                  </parametro>
-                            <parametro nombre="PADRE">
-                                       [-PAGINA1]
-                                  </parametro>
-                            <parametro nombre="USUARIO_CREACION">
-                                     [-PAGINA1]
-                                  </parametro>
-                            <parametro nombre="FECHA_CREACION">
-                                      [2024-12-12]
-                                  </parametro>
-                            <parametro nombre="FECHA_MODIFICACION">
-                                      [2024-01-12]
-                                  </parametro>
-                            <parametro nombre="USUARIO_MODIFICACION">
-                                      [-PAGINA1]
-                                  </parametro>
-                                </parametros>
-                            <etiquetas>
-                              <etiqueta valor="-etiqueta1"/>
-                            </etiquetas>
-                        </accion>
-                      <accion nombre="MODIFICAR_PAGINA">
-                          <parametros>
-                                <parametro nombre="ID">
-                                      [-producto]
-                                  </parAmetRo>
-                                  <parametro nombre="TITULO">
-                                      [nuevo titulo]
-                                  </parametro>
-                          </parametros>
-                          <etiquetas>
-                                    <etiqueta valor="-nuevaetiqueta1"/>
-                                    <etiqueta valor="-nuevaetiqueta2"/>
-                          </etiquetas>
-                      </accion>
-                      
-                   <accion nombre="AGREGAR_COMPONENTE">
-                 	<parametros>
-                           		<parametro nombre="ID">
-                               		[-aaa1]
-                         		</parametro>
-                           		<parametro nombre="PAGINA">
-                               		[_productos]
-                         		</parametro>
-                           		<parametro nombre="CLASE">
-                               		[MENU]
-                         		</parametro>
-                 	</parametros>
-                  	<atributos>
-                     		<atributo nombre="PADRE">
-                               [-idPadre]
-                             </atributo>
-                            <atributo nombre="ETIQUETAS">
-                               [-pagina]
-                             </atributo>
-                 	</atributos>
-                   </accion>     
-                       
-                </Acciones>                                
-                       """;
+                                                            </accion>
+                                                        
+                                                        </acciones>
+                                                        
+                """;
         AccionesLexer lexer = new AccionesLexer(new StringReader(contenido));
 
         /*while (!lexer.yyatEOF()){
@@ -486,7 +373,9 @@ public class ProyectoServidor {
             for (int i = 0; i < paginas.size(); i++) {
                 System.out.println(paginas.toString());
             }
-
+            CreadorSitios creadorSitios = new CreadorSitios();
+            ControladorDatos controladorDatos = new ControladorDatos(creadorSitios);
+            controladorDatos.agregarSitios(sitios,paginas,componentes);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
