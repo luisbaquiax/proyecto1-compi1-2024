@@ -1,6 +1,8 @@
 package com.luis.proyectoservidor.objetos;
 
-public class AccionDeletComponent extends Accion {
+import java.io.Serializable;
+
+public class AccionDeletComponent extends Accion implements Serializable {
     private String component;
     private String page;
 

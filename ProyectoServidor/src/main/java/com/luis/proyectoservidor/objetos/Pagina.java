@@ -1,9 +1,10 @@
 package com.luis.proyectoservidor.objetos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pagina {
+public class Pagina implements Serializable {
     private String id;
     private String titulo;
     private String sitio;
@@ -47,7 +48,9 @@ public class Pagina {
                 ", fechaCreacion='" + fechaCreacion + '\'' +
                 ", usuarioModificacion='" + usuarioModificacion + '\'' +
                 ", fechaModificacion='" + fechaModificacion + '\'' +
+                ", componentes=" + componentes +
                 ", etiquetas=" + etiquetas +
+                ", hijas=" + hijas +
                 "}\n";
     }
 

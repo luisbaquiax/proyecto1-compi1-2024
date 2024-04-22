@@ -1,6 +1,8 @@
 package com.luis.proyectoservidor.objetos;
 
-public class Etiqueta {
+import java.io.Serializable;
+
+public class Etiqueta implements Serializable {
     private String valor;
 
     public Etiqueta() {

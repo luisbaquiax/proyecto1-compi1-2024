@@ -1,11 +1,12 @@
 package com.luis.proyectoservidor.objetos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccionModificarPagina  extends  Accion{
-    private  String idPagina;
-    private  String titulo;
+public class AccionModificarPagina extends Accion implements Serializable {
+    private String idPagina;
+    private String titulo;
     private List<Etiqueta> etiquetas;
 
     public AccionModificarPagina(String idPagina, String titulo) {

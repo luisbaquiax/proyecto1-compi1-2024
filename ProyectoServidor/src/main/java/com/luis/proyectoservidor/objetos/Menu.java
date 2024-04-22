@@ -1,9 +1,10 @@
 package com.luis.proyectoservidor.objetos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Menu extends Componente {
+public class Menu extends Componente implements Serializable {
     private String padre;
     private List<Etiqueta> etiquetas;
 

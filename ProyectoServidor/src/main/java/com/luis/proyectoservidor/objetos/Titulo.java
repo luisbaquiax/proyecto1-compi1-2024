@@ -1,6 +1,8 @@
 package com.luis.proyectoservidor.objetos;
 
-public class Titulo extends Componente {
+import java.io.Serializable;
+
+public class Titulo extends Componente implements Serializable {
 
     private String texto;
     private String alineacion;

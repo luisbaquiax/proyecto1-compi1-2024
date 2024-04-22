@@ -1,6 +1,8 @@
 package com.luis.proyectoservidor.objetos;
 
-public class AccionDeleteSitio extends Accion {
+import java.io.Serializable;
+
+public class AccionDeleteSitio extends Accion implements Serializable {
     /**
      * Id del sitio
      */
@@ -22,6 +24,7 @@ public class AccionDeleteSitio extends Accion {
 
     /**
      * Id del sitio
+     *
      * @return
      */
     public String getId() {

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ControladorDatos {
@@ -20,9 +21,13 @@ public class ControladorDatos {
     }
 
     public void agregarSitios(List<Sitio> sitios, List<Pagina> paginas, List<Componente> componentes) {
-        System.out.println("hola");
+        System.out.println("datos...");
+        System.out.println(Arrays.toString(sitios.toArray()));
+        System.out.println(Arrays.toString(paginas.toArray()));
+        System.out.println(Arrays.toString(componentes.toArray()));
+        System.out.println("hola 1");
         try {
-            List<Sitio> dataSitios = (List<Sitio>) creadorSitios.getArchivo().leerObejtodelAarchivo(Archivo.RUTA_SITIOS);
+            List<Sitio> dataSitios = (List<Sitio>) creadorSitios.getArchivo().getObjectDatos(Archivo.RUTA_SITIOS);
 
             //List<Pagina> dataPaginas = (List<Pagina>) creadorSitios.getArchivo().getObjectDatos(Archivo.RUTA_PAGINAS);
             System.out.println("entrando...");
@@ -43,14 +48,15 @@ public class ControladorDatos {
                         System.out.println("se agrego pagina");
                         dataSitios.add(sitios.get(i));
                     } else {
+                        System.out.println("ya existe sitio");
                         mensajes.add("Mensaje-servidor: \tEl id del sitio esta en uso, id repetido: " + sitios.get(i).getId());
                     }
                 }
                 agregarPaginaASitio(paginas, dataSitios, componentes);
-                System.out.println("sitios actualizados....");
-                for (String s : Arrays.asList(dataSitios.toString(), "escribiendo objeto...")) {
-                    System.out.println(s);
-                }
+                System.out.println("original...");
+                System.out.println(Arrays.toString(sitios.toArray()));
+                System.out.println("datasitios...");
+                System.out.println(Arrays.toString(dataSitios.toArray()));
                 creadorSitios.getArchivo().escribirObjeto(Archivo.RUTA_SITIOS, dataSitios);
                 crearCarpetaArchivos(dataSitios);
 
@@ -59,9 +65,10 @@ public class ControladorDatos {
                 System.out.println("Se han creado as carpetas y sitios");
             }
 
-        } catch (IOException | NullPointerException e) {
+        } catch (IOException | NullPointerException | ClassNotFoundException e) {
             mensajes.add("Mensaje-servidor: \tNO SE PUDO CREAR LOS SITIOS WEB, LO SENTIMOS");
             System.out.println("Mensaje error: "+e.getMessage());
+            Logger.getLogger(ControladorDatos.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -105,7 +112,7 @@ public class ControladorDatos {
     private void agregarPaginaASitio(List<Pagina> paginas, List<Sitio> dataSitios, List<Componente> componentes) {
         //agregamos paginas a sitios
         for (int i = 0; i < paginas.size(); i++) {
-            if (existePagina(paginas.get(i), dataSitios) != null) {
+            if (existePagina(paginas.get(i), dataSitios) == null) {
                 //antes de agregar paginas, agregamos componentes a las paginas
                 for (int j = 0; j < componentes.size(); j++) {
                     if (componentes.get(j).getPagina().equals(paginas.get(i).getId())) {

@@ -1,6 +1,8 @@
 package com.luis.proyectoservidor.objetos;
 
-public class Componente {
+import java.io.Serializable;
+
+public class Componente implements Serializable {
     private String id;
     private String pagina;
     private String clase;

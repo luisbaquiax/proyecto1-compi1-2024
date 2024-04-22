@@ -1,6 +1,8 @@
 package com.luis.proyectoservidor.objetos;
 
-public class Parrafo extends Titulo {
+import java.io.Serializable;
+
+public class Parrafo extends Titulo implements Serializable {
     public Parrafo(String id, String pagina, String clase, String texto, String alineacion, String color) {
         super(id, pagina, clase, texto, alineacion, color);
     }

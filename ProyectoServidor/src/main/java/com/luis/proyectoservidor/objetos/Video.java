@@ -1,6 +1,8 @@
 package com.luis.proyectoservidor.objetos;
 
-public class Video extends Componente {
+import java.io.Serializable;
+
+public class Video extends Componente implements Serializable {
     private int altura;
     private int anchura;
     private String ruta;

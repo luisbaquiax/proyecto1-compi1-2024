@@ -1,6 +1,8 @@
 package com.luis.proyectoservidor.objetos;
 
-public class AccionDeletePage extends Accion{
+import java.io.Serializable;
+
+public class AccionDeletePage extends Accion implements Serializable {
     private String idPage;
 
     public AccionDeletePage(String idPage) {
