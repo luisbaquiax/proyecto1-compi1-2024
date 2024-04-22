@@ -7,8 +7,8 @@ public class Sitio {
     private String id;
     private String userCreacion;
     private String fechaCreacion;
-    private  String userModificacion;
-    private  String fechaModificacion;
+    private String userModificacion;
+    private String fechaModificacion;
 
     private List<Pagina> paginas;
 
@@ -23,6 +23,17 @@ public class Sitio {
         this.userModificacion = userModificacion;
         this.fechaModificacion = fechaModificacion;
         this.paginas = new ArrayList<>();
+    }
+
+    @Override
+    public String toString() {
+        return "Sitio{" +
+                "id='" + id + '\'' +
+                ", userCreacion='" + userCreacion + '\'' +
+                ", fechaCreacion='" + fechaCreacion + '\'' +
+                ", userModificacion='" + userModificacion + '\'' +
+                ", fechaModificacion='" + fechaModificacion + '\'' +
+                "}\n";
     }
 
     public List<Pagina> getPaginas() {
@@ -43,17 +54,6 @@ public class Sitio {
 
     public String getUserCreacion() {
         return userCreacion;
-    }
-
-    @Override
-    public String toString() {
-        return "Sitio{" +
-                "id='" + id + '\'' +
-                ", userCreacion='" + userCreacion + '\'' +
-                ", fechaCreacion='" + fechaCreacion + '\'' +
-                ", userModificacion='" + userModificacion + '\'' +
-                ", fechaModificacion='" + fechaModificacion + '\'' +
-                "}\n";
     }
 
     public void setUserCreacion(String userCreacion) {

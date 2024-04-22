@@ -76,11 +76,20 @@ public class CreadorSitios {
         return contenido.toString();
     }
 
-    public void eliminarCarpetas(List<Sitio> sitios) {
-
-    }
-
-    public void eliminarArchivos(String rutaCarpeta) {
+    public void eliminarCarpetaOArchivo(String ruta) {
+        File fileDelete = new File(ruta);
+        if (fileDelete.isDirectory()) {
+            File[] files = fileDelete.listFiles();
+            for (int i = 0; i < files.length; i++) {
+                files[i].delete();
+            }
+            fileDelete.delete();
+        } else {
+            if (fileDelete.delete()) {
+            } else {
+                System.out.println("no se pudo eleminar el archivo");
+            }
+        }
     }
 
     public Archivo getArchivo() {

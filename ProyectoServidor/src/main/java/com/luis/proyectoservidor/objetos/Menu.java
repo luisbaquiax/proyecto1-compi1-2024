@@ -22,6 +22,14 @@ public class Menu extends Componente {
         this.etiquetas = new ArrayList<>();
     }
 
+    @Override
+    public String toString() {
+        return "Menu{" +
+                "padre='" + padre + '\'' +
+                ", etiquetas=" + etiquetas +
+                '}';
+    }
+
     public String getPadre() {
         return padre;
     }

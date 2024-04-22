@@ -49,16 +49,11 @@ public class Archivo {
         }
     }
 
-    public Object getObjectDatos(String path) {
-        try {
+    public Object getObjectDatos(String path) throws IOException, ClassNotFoundException {
             ObjectInputStream flujoSalida = new ObjectInputStream(new FileInputStream(path));
             Object salida = flujoSalida.readObject();
             flujoSalida.close();
             return salida;
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public void escribirArchivo(String ruta, String contenido) {

@@ -36,6 +36,21 @@ public class Pagina {
         this.hijas = new ArrayList<>();
     }
 
+    @Override
+    public String toString() {
+        return "Pagina{" +
+                "id='" + id + '\'' +
+                ", titulo='" + titulo + '\'' +
+                ", sitio='" + sitio + '\'' +
+                ", padre='" + padre + '\'' +
+                ", usuarioCreacion='" + usuarioCreacion + '\'' +
+                ", fechaCreacion='" + fechaCreacion + '\'' +
+                ", usuarioModificacion='" + usuarioModificacion + '\'' +
+                ", fechaModificacion='" + fechaModificacion + '\'' +
+                ", etiquetas=" + etiquetas +
+                "}\n";
+    }
+
     public List<Pagina> getHijas() {
         return hijas;
     }

@@ -26,6 +26,7 @@ entero = [0-9]+
 //simbolo =[\-\_\$]
 
 id = [\-\_\$][A-Za-z0-9]+
+otrosId = id(\\|id)*
 fecha = [1-2][0-9][0-9][0-9][\-][0-1][0-9][\-][0-9][0-9]
 cadena=\"[^\"]*\"
 color_hexagonal =[\#][0-9a-fA-F]{6}
@@ -112,7 +113,15 @@ color_hexagonal =[\#][0-9a-fA-F]{6}
     System.out.println(yytext());
     return symbol(sym.ATRIBUTO, yytext());
 }
+    "\"" {
+         System.out.println(yytext());
+         return symbol(sym.COMILLA, yytext());
+    }
 
+    "\|" {
+        System.out.println(yytext());
+        return symbol(sym.BARRA, yytext());        
+    }
 
     "<"                             {
                                     System.out.println(yytext());
@@ -229,9 +238,6 @@ color_hexagonal =[\#][0-9a-fA-F]{6}
                                     return symbol(sym.ACCION_BORRAR_COMPONENTE, yytext());
                                     }
 
-
-
-
     "\"TEXTO\""	                    {
                                     System.out.println(yytext());
                                     return symbol(sym.ATRIBUTO_TEXTO, yytext());
@@ -241,8 +247,6 @@ color_hexagonal =[\#][0-9a-fA-F]{6}
                                     System.out.println(yytext());
                                     return symbol(sym.ATRIBUTO_ALINEACION, yytext());
                                     }
-
-
 
     "\"COLOR\""	                    {
                                     System.out.println(yytext());
@@ -266,24 +270,24 @@ color_hexagonal =[\#][0-9a-fA-F]{6}
                                     return symbol(sym.ATRIBUTO_ANCHO, yytext());
                                     }
 
+    "\"ETIQUETAS\""	                    {
+                                    System.out.println(yytext());
+                                    return symbol(sym.ATRIBUTO_ETIQUETAS, yytext());
+                                    }
+
     "\["                            {
                                     texto.setLength(0); yybegin(VALOR_CORCHETES);
                                     }
-
-    "\"" {
-         System.out.println(yytext());
-         return symbol(sym.COMILLA, yytext());
-    }
 
     {id}                            {
                                     System.out.println(yytext());
                                     return symbol(sym.IDENTIFICADOR, yytext());
                                     }
 
-    {cadena} {
+    /*{cadena} {
          System.out.println(yytext());
          return symbol(sym.CADENA, yytext());
-    }
+    }*/
 
     {WhiteSpace} 	                {/* ignoramos */}
 
@@ -291,7 +295,7 @@ color_hexagonal =[\#][0-9a-fA-F]{6}
 
 <VALOR_CORCHETES>{
 
-    /*{cadena}                        {
+    {cadena}                        {
                                     System.out.println(yytext());
                                     return symbol(sym.CADENA, yytext());
                                     }
@@ -314,52 +318,79 @@ color_hexagonal =[\#][0-9a-fA-F]{6}
     {id}                            {
                                     System.out.println(yytext());
                                     return symbol(sym.IDENTIFICADOR, yytext());
+                                    }
+
+
+    "VIDEO"	                        {
+                                    System.out.println(yytext());
+                                    return symbol(sym.COMPONENTE_VIDEO, yytext());
+                                    }
+
+    "MENU"	                        {
+                                    //System.out.println(yytext());
+                                    return symbol(sym.COMPONENTE_MENU, yytext());
+                                    }
+
+    "PARRAFO"	                    {
+                                    //System.out.println(yytext());
+                                    return symbol(sym.COMP_PARRAFO, yytext());
+                                    }
+
+    "IMAGEN"	                    {
+                                    //System.out.println(yytext());
+                                    return symbol(sym.COMPONENTE_IMAGEN, yytext());
+                                    }
+
+    "TITULO"	                    {
+                                    System.out.println(yytext());
+                                    return symbol(sym.COMP_TITULO, yytext());
+                                    }
+
+    "CENTRAR"	                    {
+                                    System.out.println(yytext());
+                                    return symbol(sym.VALOR_ALINEACION, yytext());
+                                    }
+
+    "IZQUIERDA"	                    {
+                                    System.out.println(yytext());
+                                    return symbol(sym.VALOR_ALINEACION, yytext());
+                                    }
+
+    "DERECHA"	                    {
+                                    System.out.println(yytext());
+                                    return symbol(sym.VALOR_ALINEACION, yytext());
+                                    }
+
+    "JUSTIFICAR"	                {
+                                    System.out.println(yytext());
+                                    return symbol(sym.VALOR_ALINEACION, yytext());
+                                    }
+
+    {id}                            {
+                                    System.out.println(yytext());
+                                    return symbol(sym.IDENTIFICADOR, yytext());
+                                    }
+
+    /*{otrosId}                       {
+                                    System.out.println(yytext());
+                                    return symbol(sym.IDES, yytext());
                                     }*/
 
-    //{WhiteSpace}                    { /* Ignorar espacios en blanco */ }
-  [-|a-z|A-Z|0-9|\"|-|_| |/|#|$|@|!|%|&|*|(|)|.|,|-|=|+|:|\/\/||]+         { texto.append(yytext()); }
-          \\t                          { texto.append('\t'); }
-          \\n                          { texto.append('\n'); }
-          \\r                          { texto.append('\r'); }
-          \\\"                         { texto.append('\"'); }
-          \\                           { texto.append('\\'); }
-          \]                           {
-                yybegin(YYINITIAL); 
-
-                if(texto.toString().equals("TITULO")){
-                    System.out.println(texto.toString()); 
-                    return symbol(sym.COMP_TITULO, texto.toString());
-                }else if(texto.toString().equals("PARRAFO")){
-                    System.out.println(texto.toString()); 
-                    return symbol(sym.COMP_PARRAFO, texto.toString());
-                }else if(texto.toString().equals("VIDEO")){
-                    System.out.println(texto.toString()); 
-                    return symbol(sym.COMPONENTE_VIDEO, texto.toString());
-                }else if(texto.toString().equals("MENU")){
-                    System.out.println(texto.toString()); 
-                    return symbol(sym.COMPONENTE_MENU, texto.toString());
-                }else if(texto.toString().equals("IMAGEN")){
-                    System.out.println(texto.toString()); 
-                    return symbol(sym.COMPONENTE_IMAGEN, texto.toString());
-                }else if(texto.toString().equals("CENTRAR")){
-                    System.out.println(texto.toString()); 
-                    return symbol(sym.VALOR_ALINEACION, texto.toString());
-                }else if(texto.toString().equals("JUSTIFICAR")){
-                    System.out.println(texto.toString()); 
-                    return symbol(sym.VALOR_ALINEACION, texto.toString());
-                }else if(texto.toString().equals("IZQUIERDA")){
-                    System.out.println(texto.toString()); 
-                    return symbol(sym.VALOR_ALINEACION, texto.toString());
-                }else if(texto.toString().equals("DERECHA")){
-                    System.out.println(texto.toString()); 
-                    return symbol(sym.VALOR_ALINEACION, texto.toString());
+[-|a-z|A-Z|0-9|\"|-|_| |/|#|$|@|!|%|&|*|(|)|.|,|-|=|+|:|\/\/||]+         { texto.append(yytext());}
+               \\t                          { texto.append('\t'); }
+               \\n                          { texto.append('\n'); }
+               \\r                          { texto.append('\r'); }
+               \\\"                         { texto.append('\"'); }
+               \\                           { texto.append('\\'); }
+               \]                           { 
+                    
+                    yybegin(YYINITIAL);
+                    if(!texto.toString().isBlank()){
+                        System.out.println(texto.toString());
+                        return symbol(sym.TEXTO, texto.toString());
+                    }
                 }
-                else {
-                    System.out.println(texto.toString()); 
-                    return symbol(sym.TEXTO, texto.toString());
-                } 
-                
-            }
+
 }
 
 /* error fallback */
