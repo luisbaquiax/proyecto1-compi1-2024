@@ -4,10 +4,13 @@
  */
 package com.luis.proyectoapp;
 
+import com.luis.proyectoservidor.objetos.Mensaje;
 import java.io.DataInputStream;
 import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -124,14 +127,18 @@ public class App extends javax.swing.JFrame {
         try {
 
             String mensaje = txtAcciones.getText();
-
+            Mensaje envio = new Mensaje(mensaje, Mensaje.ACCION);
             Socket socket = new Socket("192.168.101.8", 9090);
-
-            DataOutput salida = new DataOutputStream(socket.getOutputStream());
-            salida.writeUTF(mensaje);
-
+            
+            ObjectOutputStream salida = new ObjectOutputStream(socket.getOutputStream());
+            salida.writeObject(envio);
+            //DataOutput salida = new DataOutputStream(socket.getOutputStream());
+            //salida.writeUTF(mensaje);
+            
+            
             DataInputStream input = new DataInputStream(socket.getInputStream());
             String dataInput = input.readUTF();
+            
             txtConsola.setText(dataInput);
 
             socket.close();

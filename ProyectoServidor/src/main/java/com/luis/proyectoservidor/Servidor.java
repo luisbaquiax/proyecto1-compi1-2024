@@ -4,16 +4,19 @@
  */
 package com.luis.proyectoservidor;
 
+import com.luis.proyectoservidor.objetos.Enlace;
+import com.luis.proyectoservidor.objetos.Mensaje;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author Luis
  */
 public class Servidor extends javax.swing.JFrame implements Runnable {
@@ -54,22 +57,22 @@ public class Servidor extends javax.swing.JFrame implements Runnable {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE))
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE))
+                                .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton1)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -92,18 +95,26 @@ public class Servidor extends javax.swing.JFrame implements Runnable {
             ServerSocket serverSocket = new ServerSocket(9090);
             while (true) {
                 Socket socket = serverSocket.accept();
-                DataInputStream input = new DataInputStream(socket.getInputStream());
+                //DataInputStream input = new DataInputStream(socket.getInputStream());
+                ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
+
                 DataOutputStream output = new DataOutputStream(socket.getOutputStream());
 
-                String data = input.readUTF();
-                System.out.println(data);
+                //String data = input.readUTF();
+                Mensaje envioRecibido = (Mensaje) input.readObject();
 
-                String respuesta = "Mensaje recibido correctamente";
+                Enlace enlace = new Enlace(envioRecibido);
+                enlace.validarAciones();
+                //System.out.println(data);
+
+                String respuesta = "Mensaje-servidor:\tMensaje recibido correctamente\n\n";
+                respuesta+= enlace.getAvisos();
+
                 output.writeUTF(respuesta);
 
                 socket.close();
             }
-        } catch (IOException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

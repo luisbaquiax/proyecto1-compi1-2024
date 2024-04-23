@@ -34,7 +34,7 @@ public class Sitio implements Serializable {
                 ", fechaCreacion='" + fechaCreacion + '\'' +
                 ", userModificacion='" + userModificacion + '\'' +
                 ", fechaModificacion='" + fechaModificacion + '\'' +
-                ", paginas=" + paginas +
+                ", \npaginas=" + paginas +
                 "}\n";
     }
 

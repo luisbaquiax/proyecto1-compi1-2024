@@ -2,6 +2,7 @@ package com.luis.proyectoservidor.objetos;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 public class CreadorSitios {
@@ -26,24 +27,30 @@ public class CreadorSitios {
             crearPaginas(sitios.get(i));
         }
         for (int i = 0; i < sitios.size(); i++) {
-            String ruta = Archivo.CARPETA_SITIOS + File.separator + sitios.get(i).getId();
-            //archivo.escribirArchivo(ruta, contenido);
+            String ruta = Archivo.CARPETA_SITIOS
+                    + File.separator
+                    + sitios.get(i).getId()
+                    + File.separator + "index" + Archivo.HTML;
+            archivo.escribirArchivo(ruta, escribirIndexHtml(sitios.get(i)));
         }
     }
 
     private String escribirIndexHtml(Sitio sitio) {
         String html = "";
-        html+="<!DOCTYPE html>\n" +
+        html += "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
                 "    <meta charset=\"UTF-8\">\n" +
                 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
-                "    <title>Document</title>\n" +
+                "    <title>Sitio" + sitio.getId() + "</title>\n" +
                 "</head>\n" +
-                "<body>\n" +
-                "    <div></div>\n" +
-                "    <a href=\"\"></a>  <a href=\"\"></a>\n" +
-                "</body>\n" +
+                "<body>\n";
+        html += "<h1>Paginas</h1>";
+                
+        for (int i = 0; i < sitio.getPaginas().size(); i++) {
+            html += "<a href=\"" + sitio.getPaginas().get(i).getId() + ".html\"></a>\n";
+        }
+        html += "</body>\n" +
                 "</html>";
         return html;
     }
@@ -59,6 +66,7 @@ public class CreadorSitios {
                     + paginas.get(i).getId()
                     + Archivo.HTML;
             List<Componente> components = paginas.get(i).getComponentes();
+            //System.out.println(Arrays.toString(components.toArray()));
             archivo.escribirArchivo(ruta, webHmtml(paginas.get(i), createComponents(components)));
         }
     }

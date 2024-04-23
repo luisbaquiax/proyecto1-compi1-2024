@@ -39,6 +39,7 @@ public class CreadorComponent {
 
     private String getAtributeImg(String ruta, int alto, int ancho) {
         StringBuilder contenido = new StringBuilder();
+        contenido.append("<h1>Imagen</h1>");
         contenido.append("<img src=");
         contenido.append("\"");
         contenido.append(ruta);

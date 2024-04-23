@@ -48,10 +48,10 @@ public class Pagina implements Serializable {
                 ", fechaCreacion='" + fechaCreacion + '\'' +
                 ", usuarioModificacion='" + usuarioModificacion + '\'' +
                 ", fechaModificacion='" + fechaModificacion + '\'' +
-                ", componentes=" + componentes +
-                ", etiquetas=" + etiquetas +
-                ", hijas=" + hijas +
-                "}\n";
+                ", \ncomponentes=" + componentes +
+                ", \netiquetas=" + etiquetas +
+                ", \nhijas=" + hijas +
+                "}\n\n";
     }
 
     public List<Pagina> getHijas() {

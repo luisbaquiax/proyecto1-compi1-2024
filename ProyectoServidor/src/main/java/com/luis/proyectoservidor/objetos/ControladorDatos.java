@@ -27,21 +27,20 @@ public class ControladorDatos {
         System.out.println(Arrays.toString(componentes.toArray()));
         System.out.println("hola 1");
         try {
-            List<Sitio> dataSitios = (List<Sitio>) creadorSitios.getArchivo().getObjectDatos(Archivo.RUTA_SITIOS);
+            List<Sitio> dataSitios = (List<Sitio>) creadorSitios.getArchivo().leerObejtodelAarchivo(Archivo.RUTA_SITIOS);
 
             //List<Pagina> dataPaginas = (List<Pagina>) creadorSitios.getArchivo().getObjectDatos(Archivo.RUTA_PAGINAS);
-            System.out.println("entrando...");
             if (dataSitios == null) {
                 creadorSitios.getArchivo().escribirObjeto(Archivo.RUTA_SITIOS, sitios);
                 creadorSitios.getArchivo().escribirObjeto(Archivo.RUTA_PAGINAS, paginas);
+
                 agregarPaginaASitio(paginas, sitios, componentes);
 
                 creadorSitios.getArchivo().escribirObjeto(Archivo.RUTA_SITIOS, sitios);
-                controlXml.escrbirXml(sitios);
-
                 crearCarpetaArchivos(sitios);
+
+                controlXml.escrbirXml(sitios);
             } else {
-                System.out.println("hola...");
                 //agregamos sitios
                 for (int i = 0; i < sitios.size(); i++) {
                     if (!existeSitio(sitios.get(i), dataSitios)) {
@@ -65,23 +64,26 @@ public class ControladorDatos {
                 System.out.println("Se han creado as carpetas y sitios");
             }
 
-        } catch (IOException | NullPointerException | ClassNotFoundException e) {
+        } catch (IOException | NullPointerException e) {
             mensajes.add("Mensaje-servidor: \tNO SE PUDO CREAR LOS SITIOS WEB, LO SENTIMOS");
-            System.out.println("Mensaje error: "+e.getMessage());
+            System.out.println("Mensaje error: " + e.getMessage());
             Logger.getLogger(ControladorDatos.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
     public void ejecutarAciones(List<Accion> acciones) {
-        try {
-            List<Sitio> dataSitios = (List<Sitio>) creadorSitios.getArchivo().getObjectDatos(Archivo.RUTA_SITIOS);
+            List<Sitio> dataSitios = (List<Sitio>) creadorSitios.getArchivo().leerObejtodelAarchivo(Archivo.RUTA_SITIOS);
             for (int i = 0; i < acciones.size(); i++) {
                 if (acciones.get(i) instanceof AccionDeletComponent var) {
                     Pagina p = new Pagina();
                     p.setId(var.getPage());
                     eliminarComponente(var.getComponent(), existePagina(p, dataSitios));
                 } else if (acciones.get(i) instanceof AccionDeleteSitio var) {
-                    eliminarSitio(var.getId(), dataSitios);
+                    /*try {
+                        eliminarSitio(var.getId(), dataSitios);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }*/
                 } else if (acciones.get(i) instanceof AccionDeletePage var) {
                     eliminarPagina(var.getIdPage(), dataSitios);
                 } else if (acciones.get(i) instanceof AccionModificarPagina var) {
@@ -96,16 +98,32 @@ public class ControladorDatos {
                     }
                 }
             }
-        } catch (NullPointerException | IOException | ClassNotFoundException e) {
             mensajes.add("No se pudo ejecutar la accion");
-        }
     }
 
-    public void ejecutarModificarComponente(List<Componente> componentesModificar){
-        try {
-            List<Sitio> dataSitios = (List<Sitio>) creadorSitios.getArchivo().getObjectDatos(Archivo.RUTA_SITIOS);
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+    public void ejecutarModificarComponente(List<Componente> componentesModificar) {
+        List<Sitio> dataSitios = (List<Sitio>) creadorSitios.getArchivo().leerObejtodelAarchivo(Archivo.RUTA_SITIOS);
+
+        if (dataSitios != null) {
+
+            for (int i = 0; i < componentesModificar.size(); i++) {
+                for (int j = 0; j < dataSitios.size(); j++) {
+                    for (int k = 0; k < dataSitios.get(j).getPaginas().size(); k++) {
+                        if (componentesModificar.get(i).getPagina().equals(dataSitios.get(j).getPaginas().get(k).getId())) {
+                            List<Componente> auxi = dataSitios.get(j).getPaginas().get(k).getComponentes();
+                            for (int l = 0; l < auxi.size(); l++) {
+                                if (auxi.get(l).getId().equals(componentesModificar.get(i).getId())) {
+                                    Componente remove = dataSitios.get(j).getPaginas().get(k).getComponentes().remove(l);
+                                    dataSitios.get(j).getPaginas().get(k).getComponentes().add(componentesModificar.get(i));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            creadorSitios.crearArchivosHtml(dataSitios);
+        } else {
+            mensajes.add("No se pudo realizar la accion, no exiten datos.");
         }
     }
 
@@ -132,6 +150,10 @@ public class ControladorDatos {
                 mensajes.add("Mensaje-servidor: \tEl id de la pagina web esta en uso, id repetido: " + paginas.get(i).getId());
             }
         }
+
+    }
+
+    private void agregarPaginasHijas(List<Sitio> sitios) {
 
     }
 
@@ -212,5 +234,13 @@ public class ControladorDatos {
                 break;
             }
         }
+    }
+
+    public List<String> getMensajes() {
+        return mensajes;
+    }
+
+    public void setMensajes(List<String> mensajes) {
+        this.mensajes = mensajes;
     }
 }
