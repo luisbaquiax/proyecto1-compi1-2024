@@ -19,6 +19,7 @@ public class Enlace {
         this.mensaje = mensaje;
         this.creadorSitios = new CreadorSitios();
         this.controladorDatos = new ControladorDatos(creadorSitios);
+        avisos = "";
     }
 
     public void validarAciones() {
